@@ -7,6 +7,17 @@ import UserNotRegisteredError from "@/components/UserNotRegisteredError";
 import { siteAuthSkipped, useSiteAuth } from "@/context/SiteAuthContext";
 import { useAuth } from "@/lib/AuthContext";
 
+function isPublicSitePath(pathname: string | null) {
+  if (!pathname) return false;
+
+  return (
+    pathname === "/" ||
+    pathname === "/shop" ||
+    pathname.startsWith("/shop/") ||
+    pathname.startsWith("/product/")
+  );
+}
+
 export default function ProtectedLayout({
   children,
 }: Readonly<{
@@ -17,32 +28,33 @@ export default function ProtectedLayout({
   const { user, ready } = useSiteAuth();
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } =
     useAuth();
+  const isPublicPath = isPublicSitePath(pathname);
 
   useEffect(() => {
-    if (authError?.type === "auth_required") {
+    if (!isPublicPath && authError?.type === "auth_required") {
       navigateToLogin();
     }
-  }, [authError, navigateToLogin]);
+  }, [authError, isPublicPath, navigateToLogin]);
 
   useEffect(() => {
-    if (!ready || siteAuthSkipped() || user) return;
+    if (isPublicPath || !ready || siteAuthSkipped() || user) return;
     const nextPath = pathname || "/";
     router.replace(`/login?from=${encodeURIComponent(nextPath)}`);
-  }, [pathname, ready, router, user]);
+  }, [isPublicPath, pathname, ready, router, user]);
 
   if (isLoadingAuth || isLoadingPublicSettings || !ready) {
     return <PageLoader />;
   }
 
-  if (authError?.type === "user_not_registered") {
+  if (!isPublicPath && authError?.type === "user_not_registered") {
     return <UserNotRegisteredError />;
   }
 
-  if (authError?.type === "auth_required") {
+  if (!isPublicPath && authError?.type === "auth_required") {
     return null;
   }
 
-  if (siteAuthSkipped() || user) {
+  if (isPublicPath || siteAuthSkipped() || user) {
     return <Suspense fallback={<PageLoader />}>{children}</Suspense>;
   }
 
