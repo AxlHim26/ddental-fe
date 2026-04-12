@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, LogIn, LogOut } from "lucide-react";
 import { useSiteAuth } from "@/context/SiteAuthContext";
@@ -19,6 +19,27 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const onHome = location.pathname === "/";
   const showAuthAction = ready && !skipped;
+
+  const desktopLinkClasses = (isActive) =>
+    `relative font-body text-sm font-medium tracking-wide transition-colors ${
+      isActive
+        ? "text-primary"
+        : scrolled || !onHome
+          ? "text-foreground hover:text-primary"
+          : "text-white/90 hover:text-white"
+    }`;
+
+  const desktopIndicatorClasses = (isActive) =>
+    `absolute -bottom-1 left-0 h-0.5 rounded-full bg-primary transition-all duration-300 ${
+      isActive ? "w-full opacity-100" : "w-0 opacity-0"
+    }`;
+
+  const mobileLinkClasses = (isActive) =>
+    `rounded-lg px-3 py-2 font-body text-sm font-medium transition-colors ${
+      isActive
+        ? "bg-primary/10 text-primary"
+        : "text-foreground hover:text-primary hover:bg-muted/70"
+    }`;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -71,23 +92,27 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) =>
             link.to ? (
-              <Link
+              <NavLink
                 key={link.label}
                 to={link.to}
-                className={`font-body text-sm font-medium tracking-wide hover:text-primary transition-colors ${scrolled || !onHome ? "text-foreground" : "text-white/90"
-                  }`}
+                className={({ isActive }) => desktopLinkClasses(isActive)}
               >
-                {link.label}
-              </Link>
+                {({ isActive }) => (
+                  <>
+                    {link.label}
+                    <span className={desktopIndicatorClasses(isActive)} />
+                  </>
+                )}
+              </NavLink>
             ) : (
               <button
                 key={link.href}
                 type="button"
                 onClick={() => goToSection(link.href)}
-                className={`font-body text-sm font-medium tracking-wide hover:text-primary transition-colors ${scrolled || !onHome ? "text-foreground" : "text-white/90"
-                  }`}
+                className={desktopLinkClasses(onHome)}
               >
                 {link.label}
+                <span className={desktopIndicatorClasses(onHome)} />
               </button>
             )
           )}
@@ -132,20 +157,20 @@ export default function Navbar() {
             <div className="px-6 py-4 flex flex-col gap-3">
               {navLinks.map((link) =>
                 link.to ? (
-                  <Link
+                  <NavLink
                     key={link.label}
                     to={link.to}
                     onClick={() => setMobileOpen(false)}
-                    className="font-body text-sm font-medium text-foreground py-2 hover:text-primary transition-colors"
+                    className={({ isActive }) => mobileLinkClasses(isActive)}
                   >
                     {link.label}
-                  </Link>
+                  </NavLink>
                 ) : (
                   <button
                     key={link.href}
                     type="button"
                     onClick={() => goToSection(link.href)}
-                    className="font-body text-sm font-medium text-foreground py-2 text-left hover:text-primary transition-colors"
+                    className={`${mobileLinkClasses(onHome)} text-left`}
                   >
                     {link.label}
                   </button>

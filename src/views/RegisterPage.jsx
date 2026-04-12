@@ -69,11 +69,12 @@ export default function RegisterPage() {
       <AuthHeroBackground />
       <div className="relative z-10 w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-11 h-11 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-black/30">
-              <span className="text-primary-foreground font-heading font-bold text-lg">HD</span>
-            </div>
-            <span className="font-heading font-bold text-2xl text-white tracking-tight drop-shadow-md">DENTAL</span>
+          <div className="mb-4 flex justify-center">
+            <img
+              src="/images/logo.png"
+              alt="HD Dental Logo"
+              className="h-16 md:h-20 lg:h-24 w-auto object-contain origin-center scale-125 md:scale-150 transition-transform"
+            />
           </div>
           <h1 className="font-heading font-bold text-2xl text-white drop-shadow-sm">Đăng ký</h1>
           <p className="font-body text-sm text-white/75 mt-2">Tạo tài khoản để truy cập website.</p>

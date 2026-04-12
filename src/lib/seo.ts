@@ -23,18 +23,39 @@ export const SITE_KEYWORDS = [
 export const COMPANY_PHONE = "0914233030";
 export const COMPANY_EMAIL = "info@hddental.vn";
 
-function resolveSiteUrl() {
-  const rawUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || FALLBACK_SITE_URL;
+function normalizeUrl(rawUrl?: string | null) {
+  const value = rawUrl?.trim();
+  if (!value) return null;
+
+  const withProtocol = /^https?:\/\//.test(value) ? value : `https://${value}`;
 
   try {
-    return new URL(rawUrl).toString().replace(/\/$/, "");
+    return new URL(withProtocol).toString().replace(/\/$/, "");
   } catch {
-    return FALLBACK_SITE_URL;
+    return null;
   }
+}
+
+function resolveSiteUrl() {
+  const candidates = [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.SITE_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    process.env.VERCEL_URL,
+  ];
+
+  for (const candidate of candidates) {
+    const normalized = normalizeUrl(candidate);
+    if (normalized) return normalized;
+  }
+
+  return FALLBACK_SITE_URL;
 }
 
 export const SITE_URL = resolveSiteUrl();
 export const SITE_METADATA_BASE = new URL(`${SITE_URL}/`);
+export const GOOGLE_SITE_VERIFICATION =
+  process.env.GOOGLE_SITE_VERIFICATION?.trim() || "";
 
 function uniq(values: string[]) {
   return Array.from(new Set(values.filter(Boolean)));

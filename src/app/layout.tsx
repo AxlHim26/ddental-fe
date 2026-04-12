@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "@/index.css";
 import {
+  GOOGLE_SITE_VERIFICATION,
   SITE_DESCRIPTION,
   SITE_KEYWORDS,
   SITE_METADATA_BASE,
@@ -52,6 +53,9 @@ export const metadata: Metadata = {
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
     images: [toAbsoluteUrl("/images/logo.png")],
+  },
+  verification: {
+    google: GOOGLE_SITE_VERIFICATION || undefined,
   },
   category: "medical",
 };
