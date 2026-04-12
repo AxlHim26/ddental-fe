@@ -39,7 +39,9 @@ export default function Navbar() {
 
   const goToLogin = () => {
     setMobileOpen(false);
-    navigate("/login", { state: { from: location.pathname } });
+    navigate("/login", {
+      state: { from: onHome ? "/shop" : location.pathname },
+    });
   };
 
   const handleLogout = () => {

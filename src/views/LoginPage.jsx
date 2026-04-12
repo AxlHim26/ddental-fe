@@ -20,7 +20,7 @@ export default function LoginPage() {
   const nextPath =
     location.state?.from ||
     new URLSearchParams(location.search).get("from") ||
-    "/shop";
+    "/";
 
   useEffect(() => {
     if (!ready) return;
