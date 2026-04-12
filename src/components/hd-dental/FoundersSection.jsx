@@ -4,21 +4,21 @@ import useScrollReveal from "./useScrollReveal";
 
 const founders = [
   {
-    name: "Nguyễn Minh Tuấn",
+    name: "Nguyễn Thanh Văn",
     role: "CEO & Đồng sáng lập",
-    image: "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/8f601b002_generated_79298aee.png",
+    image: "https://vcdn1-kinhdoanh.vnecdn.net/2021/02/05/3-1-1612513233-7959-1612513323.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=KExmq1x6m9hYfS5aZ4YHdQ",
     desc: "Hơn 15 năm kinh nghiệm trong lĩnh vực thiết bị y tế. Tầm nhìn đưa HD Dental trở thành thương hiệu hàng đầu Đông Nam Á.",
   },
   {
     name: "Trần Hoàng Nam",
     role: "CTO & Đồng sáng lập",
-    image: "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/a1ff50090_generated_a85f6996.png",
+    image: "https://nhakhoabsninh.com/wp-content/uploads/2025/11/bs-dang-e1764504600468.jpg",
     desc: "Chuyên gia công nghệ nha khoa số, tiên phong ứng dụng AI và CAD/CAM trong lĩnh vực nha khoa Việt Nam.",
   },
   {
-    name: "Lê Quang Huy",
+    name: "Nguyễn Hữu Đắc",
     role: "COO & Đồng sáng lập",
-    image: "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/004107cdf_generated_7811ac20.png",
+    image: "https://cafefcdn.com/203337114487263232/2026/2/25/z75617835068752e2c375e4079669dfc28748ca14d72e8-1771992389898-1771992390299185111743.jpg",
     desc: "Quản lý vận hành xuất sắc, xây dựng hệ thống phân phối trải dài 63 tỉnh thành với dịch vụ hậu mãi vượt trội.",
   },
 ];

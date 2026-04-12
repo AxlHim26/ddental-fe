@@ -63,7 +63,7 @@ export default function ShopCategory() {
   if (slug && !category) return <div className="p-8 text-center font-body">Danh mục không tồn tại</div>;
 
   return (
-    <div className="min-h-screen bg-background font-body relative">
+    <div className="min-h-screen bg-background font-body relative pt-20 sm:pt-24">
       <ShopNavbar onSearch={setSearch} searchValue={search} />
 
       {/* ── Global Black Overlay on Hover ── */}

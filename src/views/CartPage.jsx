@@ -23,7 +23,7 @@ export default function CartPage() {
     useCart();
 
   return (
-    <div className="min-h-screen bg-background font-body">
+    <div className="min-h-screen bg-background font-body pt-20 sm:pt-24">
       <ShopNavbar />
 
       <div className="border-b border-border bg-muted/30 px-4 py-2.5">

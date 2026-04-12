@@ -106,7 +106,7 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-background font-body">
+    <div className="min-h-screen bg-background font-body pt-20 sm:pt-24">
       <ShopNavbar />
 
       {/* Breadcrumb */}

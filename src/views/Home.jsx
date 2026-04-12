@@ -6,8 +6,8 @@ import Navbar from "../components/hd-dental/Navbar";
 import HeroSection from "../components/hd-dental/HeroSection";
 import StatsBar from "../components/hd-dental/StatsBar";
 import TimelineSection from "../components/hd-dental/TimelineSection";
-import ProductsSection from "../components/hd-dental/ProductsSection";
-import BestSellers from "../components/hd-dental/BestSellers";
+import ProductFlipBook from "../components/hd-dental/ProductFlipBook";
+import ReviewSection from "../components/hd-dental/ReviewSection";
 import CTABanner from "../components/hd-dental/CTABanner";
 import FAQSection from "../components/hd-dental/FAQSection";
 import PartnersCarousel from "../components/hd-dental/PartnersCarousel";
@@ -28,13 +28,13 @@ export default function Home() {
   }, [location.pathname, location.hash]);
 
   return (
-    <div className="min-h-screen bg-background font-body">
+    <div className="min-h-screen overflow-x-hidden bg-background font-body">
       <Navbar />
       <HeroSection />
       <StatsBar />
       <TimelineSection />
-      <ProductsSection />
-      <BestSellers />
+      <ProductFlipBook />
+      <ReviewSection />
       <CTABanner />
       <FAQSection />
       <PartnersCarousel />
