@@ -10,9 +10,9 @@ import {
 } from "@/lib/seo";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
@@ -21,14 +21,15 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const product = products.find((item) => item.id === params.id);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const product = products.find((item) => item.id === id);
 
   if (!product) {
     return buildPageMetadata({
       title: "Sản Phẩm Không Tồn Tại",
       description: "Sản phẩm bạn tìm không tồn tại trên HD Dental.",
-      path: `/product/${params.id}`,
+      path: `/product/${id}`,
       noIndex: true,
     });
   }
@@ -44,8 +45,9 @@ export function generateMetadata({ params }: Props): Metadata {
   });
 }
 
-export default function ProductDetailRoute({ params }: Props) {
-  const product = products.find((item) => item.id === params.id);
+export default async function ProductDetailRoute({ params }: Props) {
+  const { id } = await params;
+  const product = products.find((item) => item.id === id);
   const category = product
     ? categories[product.category as keyof typeof categories]
     : null;

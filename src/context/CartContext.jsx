@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { products } from "@/lib/productData";
 import { clearCart as clearStoredCart, readCart, writeCart } from "@/lib/cartStorage";

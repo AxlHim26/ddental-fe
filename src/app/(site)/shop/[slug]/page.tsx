@@ -6,9 +6,9 @@ import { categories } from "@/lib/productData";
 import { buildPageMetadata } from "@/lib/seo";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
@@ -17,14 +17,15 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const category = categories[params.slug as keyof typeof categories];
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const category = categories[slug as keyof typeof categories];
 
   if (!category) {
     return buildPageMetadata({
       title: "Danh Mục Không Tồn Tại",
       description: "Danh mục sản phẩm bạn tìm không tồn tại trên HD Dental.",
-      path: `/shop/${params.slug}`,
+      path: `/shop/${slug}`,
       noIndex: true,
     });
   }

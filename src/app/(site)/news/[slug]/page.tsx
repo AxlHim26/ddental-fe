@@ -10,9 +10,9 @@ import {
 } from "@/lib/seo";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
@@ -21,14 +21,15 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const article = getArticleBySlug(params.slug);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
 
   if (!article) {
     return buildPageMetadata({
       title: "Bài Viết Không Tồn Tại",
       description: "Bài viết bạn tìm không tồn tại trên HD Dental.",
-      path: `/news/${params.slug}`,
+      path: `/news/${slug}`,
       noIndex: true,
     });
   }
@@ -43,8 +44,9 @@ export function generateMetadata({ params }: Props): Metadata {
   });
 }
 
-export default function NewsArticleRoute({ params }: Props) {
-  const article = getArticleBySlug(params.slug);
+export default async function NewsArticleRoute({ params }: Props) {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
 
   const articleJsonLd = article ? getArticleJsonLd(article) : null;
   const breadcrumbJsonLd = article

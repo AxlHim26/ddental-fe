@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { ArrowLeft, Calendar } from "lucide-react";

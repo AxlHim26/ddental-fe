@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSiteAuth } from "@/context/SiteAuthContext";
@@ -18,12 +20,12 @@ export default function LoginPage() {
   const nextPath =
     location.state?.from ||
     new URLSearchParams(location.search).get("from") ||
-    "/";
+    "/shop";
 
   useEffect(() => {
     if (!ready) return;
-    if (user || skipped) navigate("/", { replace: true });
-  }, [ready, user, skipped, navigate]);
+    if (user || skipped) navigate(nextPath, { replace: true });
+  }, [nextPath, ready, user, skipped, navigate]);
 
   if (!ready) {
     return (
@@ -75,7 +77,7 @@ export default function LoginPage() {
         >
           {justRegistered && (
             <p className="text-sm text-emerald-800 font-body bg-emerald-50 border border-emerald-200/80 rounded-lg px-3 py-2">
-              Đăng ký thành công. Vui lòng đăng nhập để vào trang chủ.
+              Đăng ký thành công. Vui lòng đăng nhập để vào trang sản phẩm.
             </p>
           )}
           {error && (
