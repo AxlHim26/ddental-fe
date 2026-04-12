@@ -11,6 +11,7 @@ import {
   toAbsoluteUrl,
 } from "@/lib/seo";
 import Providers from "./providers";
+import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   metadataBase: SITE_METADATA_BASE,
@@ -90,6 +91,7 @@ export default function RootLayout({
           }}
         />
         <Providers>{children}</Providers>
+        <ChatWidget />
       </body>
     </html>
   );
