@@ -7,6 +7,7 @@ import { useSiteAuth } from "@/context/SiteAuthContext";
 const navLinks = [
   { label: "Trang chủ", href: "#hero" },
   { label: "Về chúng tôi", to: "/ve-chung-toi" },
+  { label: "Sản phẩm", to: "/shop" },
   { label: "Dịch vụ", to: "/dich-vu" },
   { label: "Tin tức", to: "/news" },
 ];
@@ -74,8 +75,11 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled || !onHome ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent"
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled || !onHome
+          ? "bg-background/95 backdrop-blur-md shadow-lg"
+          : "bg-transparent"
+      }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
@@ -88,7 +92,11 @@ export default function Navbar() {
           }}
           className="flex items-center gap-2"
         >
-          <img src="/images/logo.png" alt="HD Dental Logo" className="h-16 md:h-20 lg:h-24 w-auto object-contain origin-left scale-125 md:scale-150 transition-transform" />
+          <img
+            src="/images/logo.png"
+            alt="HD Dental Logo"
+            className="h-16 md:h-20 lg:h-24 w-auto object-contain origin-left scale-125 md:scale-150 transition-transform"
+          />
         </Link>
 
         <div className="hidden lg:flex items-center gap-6">
@@ -100,7 +108,9 @@ export default function Navbar() {
                 className={desktopLinkClasses(isActivePath(link.to))}
               >
                 {link.label}
-                <span className={desktopIndicatorClasses(isActivePath(link.to))} />
+                <span
+                  className={desktopIndicatorClasses(isActivePath(link.to))}
+                />
               </Link>
             ) : (
               <button
@@ -112,17 +122,22 @@ export default function Navbar() {
                 {link.label}
                 <span className={desktopIndicatorClasses(onHome)} />
               </button>
-            )
+            ),
           )}
 
           {showAuthAction && (
             <button
               type="button"
               onClick={user ? handleLogout : goToLogin}
-              className={`font-body text-sm font-medium flex items-center gap-1.5 hover:text-primary transition-colors ${scrolled || !onHome ? "text-foreground" : "text-white/90"
-                }`}
+              className={`font-body text-sm font-medium flex items-center gap-1.5 hover:text-primary transition-colors ${
+                scrolled || !onHome ? "text-foreground" : "text-white/90"
+              }`}
             >
-              {user ? <LogOut className="w-4 h-4" /> : <LogIn className="w-4 h-4" />}
+              {user ? (
+                <LogOut className="w-4 h-4" />
+              ) : (
+                <LogIn className="w-4 h-4" />
+              )}
               {user ? "Đăng xuất" : "Đăng nhập"}
             </button>
           )}
@@ -140,7 +155,11 @@ export default function Navbar() {
           onClick={() => setMobileOpen(!mobileOpen)}
           className={`lg:hidden ${scrolled || !onHome ? "text-foreground" : "text-white"}`}
         >
-          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
         </button>
       </div>
 
@@ -172,7 +191,7 @@ export default function Navbar() {
                   >
                     {link.label}
                   </button>
-                )
+                ),
               )}
 
               {showAuthAction && (
@@ -181,7 +200,11 @@ export default function Navbar() {
                   onClick={user ? handleLogout : goToLogin}
                   className="font-body text-sm font-medium text-foreground py-2 text-left hover:text-primary flex items-center gap-2"
                 >
-                  {user ? <LogOut className="w-4 h-4" /> : <LogIn className="w-4 h-4" />}
+                  {user ? (
+                    <LogOut className="w-4 h-4" />
+                  ) : (
+                    <LogIn className="w-4 h-4" />
+                  )}
                   {user ? "Đăng xuất" : "Đăng nhập"}
                 </button>
               )}

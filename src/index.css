@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -34,8 +34,8 @@
     --chart-4: 357 78% 65%;
     --chart-5: 0 0% 70%;
     --radius: 0.5rem;
-    --font-heading: 'Montserrat', sans-serif;
-    --font-body: 'Montserrat', sans-serif;
+    --font-heading: "Montserrat", sans-serif;
+    --font-body: "Montserrat", sans-serif;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 357 78% 51%;
@@ -81,8 +81,6 @@
     --sidebar-ring: 357 78% 51%;
   }
 }
-
-
 
 @layer base {
   * {

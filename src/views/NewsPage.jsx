@@ -5,7 +5,12 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, Calendar } from "lucide-react";
 import Navbar from "@/components/hd-dental/Navbar";
-import { articles, getHeroArticles, getEditorialArticles } from "@/lib/newsData";
+import {
+  articles,
+  getHeroArticles,
+  getEditorialArticles,
+} from "@/lib/newsData";
+import Footer from "@/components/hd-dental/Footer";
 
 /* ─── auto-advance every 3 seconds ─── */
 const SLIDE_MS = 3000;
@@ -17,11 +22,19 @@ const easeOut = [0.16, 1, 0.3, 1];
 /* ─── stagger text block ─── */
 const textBlock = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.09, delayChildren: 0.05 },
+  },
 };
 const textItem = {
   hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
-  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5, ease: easeOut } },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.5, ease: easeOut },
+  },
 };
 
 /* ─── lower-section article card ─── */
@@ -33,9 +46,13 @@ const gridCard = {
 function formatDate(iso) {
   try {
     return new Date(iso).toLocaleDateString("vi-VN", {
-      day: "numeric", month: "long", year: "numeric",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     });
-  } catch { return iso; }
+  } catch {
+    return iso;
+  }
 }
 
 /* ════════════════════════════════════════════════
@@ -56,7 +73,7 @@ function ProgressBar({ progress }) {
    PAGE COMPONENT
 ══════════════════════════════════════════════════ */
 export default function NewsPage() {
-  const heroList = getHeroArticles();          // up to 4 featured articles
+  const heroList = getHeroArticles(); // up to 4 featured articles
   // use a large initial offset so we don't go below 0 when going Previous
   const [slideCount, setSlideCount] = useState(1000 * heroList.length);
   const [paused, setPaused] = useState(false);
@@ -110,7 +127,6 @@ export default function NewsPage() {
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
-
         {/* ── Full-screen background image ── */}
         <AnimatePresence mode="sync">
           <motion.div
@@ -136,18 +152,19 @@ export default function NewsPage() {
         {/* ── Subtle red ambient on the right ── */}
         <div
           className="absolute top-1/4 right-1/3 w-[500px] h-[500px] rounded-full pointer-events-none z-[1]"
-          style={{ background: "radial-gradient(circle, rgba(220,38,38,0.08) 0%, transparent 70%)" }}
+          style={{
+            background:
+              "radial-gradient(circle, rgba(220,38,38,0.08) 0%, transparent 70%)",
+          }}
         />
 
         {/* ══════════════════════════════════════════
             INNER LAYOUT  (Navbar height offset: pt-20)
         ══════════════════════════════════════════ */}
         <div className="relative z-[5] h-full flex flex-col justify-between pt-[72px] pb-0">
-
           {/* TOP ROW — left text + right cards  */}
           <div className="flex-1 flex items-center mt-20 sm:mt-28 xl:mt-32">
             <div className="w-full max-w-[1720px] mx-auto px-8 sm:px-12 lg:px-16 xl:px-24 flex items-center justify-between gap-12 lg:gap-20 xl:gap-32">
-
               {/* ─── LEFT: text content ─── */}
               {/* Made text box wider (max-w-[760px]) and taller (h-[540px]) to prevent overlapping and excessive wrapping */}
               <div className="flex-1 min-w-0 max-w-[640px] xl:max-w-[760px] h-[400px] sm:h-[460px] xl:h-[540px] relative">
@@ -157,11 +174,19 @@ export default function NewsPage() {
                     variants={textBlock}
                     initial="hidden"
                     animate="show"
-                    exit={{ opacity: 0, x: -20, filter: "blur(6px)", transition: { duration: 0.22 } }}
+                    exit={{
+                      opacity: 0,
+                      x: -20,
+                      filter: "blur(6px)",
+                      transition: { duration: 0.22 },
+                    }}
                     className="absolute inset-0 flex flex-col"
                   >
                     {/* Location / category label */}
-                    <motion.div variants={textItem} className="flex items-center gap-3 mb-5">
+                    <motion.div
+                      variants={textItem}
+                      className="flex items-center gap-3 mb-5"
+                    >
                       <div className="w-8 h-[2px] bg-primary flex-shrink-0" />
                       <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/70">
                         {active.tag} · HD Dental
@@ -193,14 +218,21 @@ export default function NewsPage() {
                     <motion.div
                       variants={{
                         hidden: { opacity: 0, filter: "blur(8px)" },
-                        show: { opacity: 1, filter: "blur(0px)", transition: { duration: 0.5, ease: easeOut } }
+                        show: {
+                          opacity: 1,
+                          filter: "blur(0px)",
+                          transition: { duration: 0.5, ease: easeOut },
+                        },
                       }}
                       className="absolute bottom-0 left-0 flex items-center gap-5 w-full"
                     >
                       <Link
                         to={`/news/${active.slug}`}
                         className="group relative inline-flex items-center gap-3 overflow-hidden border border-primary bg-primary/90 hover:bg-primary px-7 py-3 text-[12px] font-bold uppercase tracking-widest text-white transition-colors duration-200"
-                        style={{ clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))" }}
+                        style={{
+                          clipPath:
+                            "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))",
+                        }}
                       >
                         Khám phá ngay
                         <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -216,16 +248,26 @@ export default function NewsPage() {
               </div>
 
               {/* ─── RIGHT: portrait cards — equal size, slide R→L, infinite loop ─── */}
-              <div className="hidden lg:block flex-shrink-0 self-end pb-12 overflow-hidden relative ml-auto" style={{ width: 680, height: 268 }}>
+              <div
+                className="hidden lg:block flex-shrink-0 self-end pb-12 overflow-hidden relative ml-auto"
+                style={{ width: 680, height: 268 }}
+              >
                 <motion.div
                   className="absolute inset-0"
                   animate={{ x: -(slideCount * (160 + 16)) }}
-                  transition={{ type: "spring", stiffness: 180, damping: 28, mass: 0.9 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 180,
+                    damping: 28,
+                    mass: 0.9,
+                  }}
                 >
                   {Array.from({ length: 8 }).map((_, idx) => {
                     // Render 2 cards before active, and 5 cards after
                     const absoluteIndex = slideCount - 2 + idx;
-                    const dataIdx = ((absoluteIndex % heroList.length) + heroList.length) % heroList.length;
+                    const dataIdx =
+                      ((absoluteIndex % heroList.length) + heroList.length) %
+                      heroList.length;
                     const item = heroList[dataIdx];
                     const isActive = absoluteIndex === slideCount;
 
@@ -241,14 +283,20 @@ export default function NewsPage() {
                           setTimeout(() => setPaused(false), 6000);
                         }}
                         animate={{
-                          filter: isActive ? "brightness(1) saturate(1)" : "brightness(0.55) saturate(0.7)",
+                          filter: isActive
+                            ? "brightness(1) saturate(1)"
+                            : "brightness(0.55) saturate(0.7)",
                         }}
                         whileHover={{
                           y: -8,
                           filter: "brightness(0.9) saturate(1)",
                           transition: springSoft,
                         }}
-                        transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 260,
+                          damping: 28,
+                        }}
                         className="absolute top-0 rounded-2xl overflow-hidden flex-shrink-0 cursor-pointer"
                         style={{
                           left: absoluteIndex * (160 + 16),
@@ -338,8 +386,14 @@ export default function NewsPage() {
                       style={{
                         width: i === activeIdx ? 28 : 8,
                         height: 8,
-                        background: i === activeIdx ? "hsl(var(--primary))" : "rgba(255,255,255,0.3)",
-                        boxShadow: i === activeIdx ? "0 0 8px rgba(220,38,38,0.5)" : "none",
+                        background:
+                          i === activeIdx
+                            ? "hsl(var(--primary))"
+                            : "rgba(255,255,255,0.3)",
+                        boxShadow:
+                          i === activeIdx
+                            ? "0 0 8px rgba(220,38,38,0.5)"
+                            : "none",
                       }}
                       aria-label={`Bài ${i + 1}`}
                     />
@@ -352,7 +406,13 @@ export default function NewsPage() {
                 <span className="text-white/30 text-xs uppercase tracking-[0.3em] font-medium hidden sm:block">
                   HD Dental News
                 </span>
-                <div className="text-white font-black tabular-nums" style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", lineHeight: 1 }}>
+                <div
+                  className="text-white font-black tabular-nums"
+                  style={{
+                    fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
+                    lineHeight: 1,
+                  }}
+                >
                   <AnimatePresence mode="wait">
                     <motion.span
                       key={activeIdx}
@@ -366,7 +426,9 @@ export default function NewsPage() {
                     </motion.span>
                   </AnimatePresence>
                 </div>
-                <span className="text-white/25 text-sm font-bold">/ {String(heroList.length).padStart(2, "0")}</span>
+                <span className="text-white/25 text-sm font-bold">
+                  / {String(heroList.length).padStart(2, "0")}
+                </span>
               </div>
             </div>
           </div>
@@ -395,11 +457,17 @@ export default function NewsPage() {
           >
             <div className="inline-flex items-center gap-2 mb-4">
               <span className="w-8 h-[2px] bg-primary" />
-              <p className="text-primary text-xs font-bold uppercase tracking-[0.3em]">Bài viết</p>
+              <p className="text-primary text-xs font-bold uppercase tracking-[0.3em]">
+                Bài viết
+              </p>
               <span className="w-8 h-[2px] bg-primary" />
             </div>
-            <h2 className="font-heading font-bold text-3xl sm:text-5xl text-gray-900 mt-2">Nổi bật</h2>
-            <p className="text-gray-500 text-sm mt-4 leading-relaxed">Tin tức · Sự kiện · Sản phẩm</p>
+            <h2 className="font-heading font-bold text-3xl sm:text-5xl text-gray-900 mt-2">
+              Nổi bật
+            </h2>
+            <p className="text-gray-500 text-sm mt-4 leading-relaxed">
+              Tin tức · Sự kiện · Sản phẩm
+            </p>
           </motion.div>
 
           <div className="space-y-20 sm:space-y-28">
@@ -409,7 +477,11 @@ export default function NewsPage() {
                 initial={{ opacity: 0, y: 48 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.65, ease: easeOut, delay: idx * 0.05 }}
+                transition={{
+                  duration: 0.65,
+                  ease: easeOut,
+                  delay: idx * 0.05,
+                }}
                 className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center"
               >
                 <motion.div
@@ -442,18 +514,29 @@ export default function NewsPage() {
                   </Link>
                 </motion.div>
 
-                <div className={`lg:col-span-5 relative ${idx % 2 === 1 ? "lg:order-1" : ""}`}>
+                <div
+                  className={`lg:col-span-5 relative ${idx % 2 === 1 ? "lg:order-1" : ""}`}
+                >
                   <time className="text-xs text-primary flex items-center gap-2 font-semibold uppercase tracking-wider">
                     <Calendar className="w-3.5 h-3.5" />
                     {formatDate(post.date)}
                   </time>
                   <h3 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-gray-900 mt-4 leading-tight">
-                    <Link to={`/news/${post.slug}`} className="hover:text-primary transition-colors duration-300">
+                    <Link
+                      to={`/news/${post.slug}`}
+                      className="hover:text-primary transition-colors duration-300"
+                    >
                       {post.title}
                     </Link>
                   </h3>
-                  <p className="text-gray-600 mt-5 leading-relaxed text-base">{post.excerpt}</p>
-                  <motion.div whileHover={{ x: 4 }} transition={springSoft} className="inline-block mt-8">
+                  <p className="text-gray-600 mt-5 leading-relaxed text-base">
+                    {post.excerpt}
+                  </p>
+                  <motion.div
+                    whileHover={{ x: 4 }}
+                    transition={springSoft}
+                    className="inline-block mt-8"
+                  >
                     <Link
                       to={`/news/${post.slug}`}
                       className="inline-flex items-center gap-2 text-sm font-bold text-white bg-primary px-6 py-2.5 rounded-full hover:bg-primary/90 transition-colors shadow-md"
@@ -483,7 +566,9 @@ export default function NewsPage() {
             className="flex items-center justify-between mb-14"
           >
             <div>
-              <p className="text-primary text-xs font-bold uppercase tracking-[0.3em] mb-2">Thư viện</p>
+              <p className="text-primary text-xs font-bold uppercase tracking-[0.3em] mb-2">
+                Thư viện
+              </p>
               <h2 className="font-heading font-bold text-2xl sm:text-4xl text-gray-900">
                 Tất cả tin tức
               </h2>
@@ -496,7 +581,9 @@ export default function NewsPage() {
             viewport={{ once: true, margin: "-40px" }}
             variants={{
               hidden: {},
-              show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+              show: {
+                transition: { staggerChildren: 0.09, delayChildren: 0.05 },
+              },
             }}
             className="grid sm:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-8"
           >
@@ -507,7 +594,10 @@ export default function NewsPage() {
                 whileHover={{ y: -8, transition: springSoft }}
                 className="group relative rounded-2xl bg-white border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300"
               >
-                <Link to={`/news/${post.slug}`} className="block aspect-[16/10] overflow-hidden bg-gray-100 relative">
+                <Link
+                  to={`/news/${post.slug}`}
+                  className="block aspect-[16/10] overflow-hidden bg-gray-100 relative"
+                >
                   <motion.img
                     src={post.image}
                     alt=""
@@ -520,17 +610,22 @@ export default function NewsPage() {
                 <div className="p-5 sm:p-6">
                   <div className="flex items-center justify-between gap-2 text-[10px] uppercase tracking-wider">
                     <span className="text-primary font-bold">{post.tag}</span>
-                    <time className="text-gray-400 font-medium">{formatDate(post.date)}</time>
+                    <time className="text-gray-400 font-medium">
+                      {formatDate(post.date)}
+                    </time>
                   </div>
                   <h3 className="font-heading font-bold text-lg text-gray-900 mt-3 leading-snug line-clamp-2 group-hover:text-primary transition-colors duration-300">
                     <Link to={`/news/${post.slug}`}>{post.title}</Link>
                   </h3>
-                  <p className="text-sm text-gray-500 mt-2 line-clamp-2 leading-relaxed">{post.excerpt}</p>
+                  <p className="text-sm text-gray-500 mt-2 line-clamp-2 leading-relaxed">
+                    {post.excerpt}
+                  </p>
                   <Link
                     to={`/news/${post.slug}`}
                     className="inline-flex items-center gap-1.5 mt-5 text-sm font-semibold text-primary group-hover:gap-2.5 transition-all duration-300"
                   >
-                    Đọc thêm <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                    Đọc thêm{" "}
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </div>
               </motion.article>
@@ -540,21 +635,7 @@ export default function NewsPage() {
       </section>
 
       {/* Footer — White + Red theme */}
-      <footer className="py-12 bg-white border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2 group">
-            <img src="/images/logo.png" alt="HD Dental" className="h-10 w-auto object-contain" />
-          </Link>
-          <p className="text-sm text-gray-400 font-medium">
-            © {new Date().getFullYear()} HD Dental — Chăm sóc mọi nhu cầu nha khoa
-          </p>
-          <div className="flex items-center gap-4">
-            <Link to="/" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">Trang chủ</Link>
-            <Link to="/shop" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">Sản phẩm</Link>
-            <Link to="/dich-vu" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">Dịch vụ</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
