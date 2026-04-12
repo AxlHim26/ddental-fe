@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, LogIn, LogOut } from "lucide-react";
 import { useSiteAuth } from "@/context/SiteAuthContext";
@@ -19,6 +19,8 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const onHome = location.pathname === "/";
   const showAuthAction = ready && !skipped;
+  const isActivePath = (path) =>
+    location.pathname === path || location.pathname.startsWith(`${path}/`);
 
   const desktopLinkClasses = (isActive) =>
     `relative font-body text-sm font-medium tracking-wide transition-colors ${
@@ -92,18 +94,14 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) =>
             link.to ? (
-              <NavLink
+              <Link
                 key={link.label}
                 to={link.to}
-                className={({ isActive }) => desktopLinkClasses(isActive)}
+                className={desktopLinkClasses(isActivePath(link.to))}
               >
-                {({ isActive }) => (
-                  <>
-                    {link.label}
-                    <span className={desktopIndicatorClasses(isActive)} />
-                  </>
-                )}
-              </NavLink>
+                {link.label}
+                <span className={desktopIndicatorClasses(isActivePath(link.to))} />
+              </Link>
             ) : (
               <button
                 key={link.href}
@@ -157,14 +155,14 @@ export default function Navbar() {
             <div className="px-6 py-4 flex flex-col gap-3">
               {navLinks.map((link) =>
                 link.to ? (
-                  <NavLink
+                  <Link
                     key={link.label}
                     to={link.to}
                     onClick={() => setMobileOpen(false)}
-                    className={({ isActive }) => mobileLinkClasses(isActive)}
+                    className={mobileLinkClasses(isActivePath(link.to))}
                   >
                     {link.label}
-                  </NavLink>
+                  </Link>
                 ) : (
                   <button
                     key={link.href}
