@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, LogIn, LogOut } from "lucide-react";
+import { Menu, X, Phone, LogIn, LogOut, ShoppingCart, User } from "lucide-react";
 import { useSiteAuth } from "@/context/SiteAuthContext";
+import { useCart } from "@/context/CartContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navLinks = [
   { label: "Trang chủ", href: "#hero" },
@@ -14,6 +23,7 @@ const navLinks = [
 
 export default function Navbar() {
   const { user, ready, skipped, logout } = useSiteAuth();
+  const { itemCount } = useCart();
   const location = useLocation();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
@@ -125,22 +135,71 @@ export default function Navbar() {
             ),
           )}
 
-          {showAuthAction && (
-            <button
-              type="button"
-              onClick={user ? handleLogout : goToLogin}
-              className={`font-body text-sm font-medium flex items-center gap-1.5 hover:text-primary transition-colors ${
-                scrolled || !onHome ? "text-foreground" : "text-white/90"
+          {showAuthAction && user && (
+            <Link
+              to="/gio-hang"
+              className={`relative inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors hover:text-primary hover:border-primary ${
+                scrolled || !onHome
+                  ? "border-border text-foreground"
+                  : "border-white/30 text-white/90"
               }`}
+              aria-label="Giỏ hàng"
             >
-              {user ? (
-                <LogOut className="w-4 h-4" />
-              ) : (
-                <LogIn className="w-4 h-4" />
+              <ShoppingCart className="w-4 h-4" />
+              {itemCount > 0 && (
+                <span className="absolute -right-1 -top-1 inline-flex min-w-4 items-center justify-center rounded-full bg-primary px-1 py-0.5 text-[9px] font-bold leading-none text-white">
+                  {itemCount}
+                </span>
               )}
-              {user ? "Đăng xuất" : "Đăng nhập"}
-            </button>
+            </Link>
           )}
+
+          {showAuthAction && (
+            user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    type="button"
+                    className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors hover:text-primary hover:border-primary ${
+                      scrolled || !onHome
+                        ? "border-border text-foreground"
+                        : "border-white/30 text-white/90"
+                    }`}
+                    aria-label="Tài khoản"
+                  >
+                    <User className="w-4 h-4" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel className="font-body">
+                    {user.name || user.email}
+                  </DropdownMenuLabel>
+                  {user.email && (
+                    <DropdownMenuLabel className="pt-0 text-xs font-normal text-muted-foreground">
+                      {user.email}
+                    </DropdownMenuLabel>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="w-4 h-4" />
+                    Đăng xuất
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <button
+                type="button"
+                onClick={goToLogin}
+                className={`font-body text-sm font-medium flex items-center gap-1.5 hover:text-primary transition-colors ${
+                  scrolled || !onHome ? "text-foreground" : "text-white/90"
+                }`}
+              >
+                <LogIn className="w-4 h-4" />
+                Đăng nhập
+              </button>
+            )
+          )}
+
           <Link
             to="/#contact"
             onClick={() => setMobileOpen(false)}
@@ -194,17 +253,29 @@ export default function Navbar() {
                 ),
               )}
 
+              {showAuthAction && user && (
+                <Link
+                  to="/gio-hang"
+                  onClick={() => setMobileOpen(false)}
+                  className="font-body text-sm font-medium text-foreground py-2 hover:text-primary flex items-center gap-2"
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  Giỏ hàng
+                  {itemCount > 0 && (
+                    <span className="ml-auto inline-flex min-w-5 items-center justify-center rounded-full bg-primary px-1.5 py-0.5 text-[10px] font-bold text-white">
+                      {itemCount}
+                    </span>
+                  )}
+                </Link>
+              )}
+
               {showAuthAction && (
                 <button
                   type="button"
                   onClick={user ? handleLogout : goToLogin}
                   className="font-body text-sm font-medium text-foreground py-2 text-left hover:text-primary flex items-center gap-2"
                 >
-                  {user ? (
-                    <LogOut className="w-4 h-4" />
-                  ) : (
-                    <LogIn className="w-4 h-4" />
-                  )}
+                  {user ? <LogOut className="w-4 h-4" /> : <LogIn className="w-4 h-4" />}
                   {user ? "Đăng xuất" : "Đăng nhập"}
                 </button>
               )}

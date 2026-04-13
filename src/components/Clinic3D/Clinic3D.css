@@ -1,0 +1,8 @@
+/* Clinic3D — minimal overrides only; layout handled by Tailwind */
+
+/* Ensure the canvas fills its container */
+.clinic-canvas-wrapper canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}

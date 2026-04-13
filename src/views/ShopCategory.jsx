@@ -6,14 +6,15 @@ import { useParams, Link, NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SlidersHorizontal, Star, ArrowRight, Search, X } from "lucide-react";
 import { products, categories } from "../lib/productData";
-import ShopNavbar from "../components/hd-dental/ShopNavbar";
+import Navbar from "@/components/hd-dental/Navbar";
+import Footer from "@/components/hd-dental/Footer";
 
 const TAG_COLORS = {
   "Best Seller": "bg-primary text-white",
-  "Hot": "bg-orange-500 text-white",
-  "Mới": "bg-green-600 text-white",
-  "Sale": "bg-primary text-white",
-  "Premium": "bg-foreground text-background",
+  Hot: "bg-orange-500 text-white",
+  Mới: "bg-green-600 text-white",
+  Sale: "bg-primary text-white",
+  Premium: "bg-foreground text-background",
 };
 
 const PRICE_RANGES = [
@@ -50,36 +51,58 @@ export default function ShopCategory() {
   const [hoveredProductId, setHoveredProductId] = useState(null);
 
   const catProducts = useMemo(() => {
-    let list = isAllProducts ? [...products] : products.filter((p) => p.category === slug);
+    let list = isAllProducts
+      ? [...products]
+      : products.filter((p) => p.category === slug);
     const range = PRICE_RANGES[priceRange];
     list = list.filter((p) => p.price >= range.min && p.price <= range.max);
-    if (search) list = list.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()) || p.brand.toLowerCase().includes(search.toLowerCase()));
-    if (sortBy === "price-asc") list = [...list].sort((a, b) => a.price - b.price);
-    if (sortBy === "price-desc") list = [...list].sort((a, b) => b.price - a.price);
-    if (sortBy === "rating") list = [...list].sort((a, b) => b.rating - a.rating);
+    if (search)
+      list = list.filter(
+        (p) =>
+          p.name.toLowerCase().includes(search.toLowerCase()) ||
+          p.brand.toLowerCase().includes(search.toLowerCase()),
+      );
+    if (sortBy === "price-asc")
+      list = [...list].sort((a, b) => a.price - b.price);
+    if (sortBy === "price-desc")
+      list = [...list].sort((a, b) => b.price - a.price);
+    if (sortBy === "rating")
+      list = [...list].sort((a, b) => b.rating - a.rating);
     return list;
   }, [slug, isAllProducts, search, priceRange, sortBy]);
 
-  if (slug && !category) return <div className="p-8 text-center font-body">Danh mục không tồn tại</div>;
+  if (slug && !category)
+    return (
+      <div className="p-8 text-center font-body">Danh mục không tồn tại</div>
+    );
 
   return (
     <div className="min-h-screen bg-background font-body relative">
-      <ShopNavbar onSearch={setSearch} searchValue={search} />
-
+      <Navbar />
       {/* ── Global Black Overlay on Hover ── */}
       <div
         className={`fixed inset-0 bg-black/20 z-30 pointer-events-none transition-opacity duration-500 ease-out ${hoveredProductId ? "opacity-100" : "opacity-0"}`}
       />
 
       {/* Banner */}
-      <div className="relative h-48 lg:h-64 overflow-hidden">
-        <img src={activeCategory.banner} alt={activeCategory.name} className="w-full h-full object-cover" />
+      <div className="relative h-48 lg:h-64 overflow-hidden mt-24 lg:mt-28">
+        <img
+          src={activeCategory.banner}
+          alt={activeCategory.name}
+          className="w-full h-full object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30" />
         <div className="absolute inset-0 flex items-center px-8 max-w-7xl mx-auto">
           <div>
-            <p className="font-body text-primary text-xs font-bold uppercase tracking-widest">HD Dental</p>
-            <h1 className="font-heading font-bold text-3xl lg:text-5xl text-white mt-1">{activeCategory.name}</h1>
-            <p className="font-body text-white/70 text-sm mt-2 max-w-md">{activeCategory.description}</p>
+            <p className="font-body text-primary text-xs font-bold uppercase tracking-widest">
+              HD Dental
+            </p>
+            <h1 className="font-heading font-bold text-3xl lg:text-5xl text-white mt-1">
+              {activeCategory.name}
+            </h1>
+            <p className="font-body text-white/70 text-sm mt-2 max-w-md">
+              {activeCategory.description}
+            </p>
           </div>
         </div>
       </div>
@@ -88,16 +111,27 @@ export default function ShopCategory() {
       <div className="border-b border-border bg-white px-4 py-2">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2 font-body text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-primary transition-colors">Trang chủ</Link>
+            <Link to="/" className="hover:text-primary transition-colors">
+              Trang chủ
+            </Link>
             <span>/</span>
             {slug ? (
               <>
-                <Link to="/shop" className="hover:text-primary transition-colors">Sản phẩm</Link>
+                <Link
+                  to="/shop"
+                  className="hover:text-primary transition-colors"
+                >
+                  Sản phẩm
+                </Link>
                 <span>/</span>
-                <span className="text-foreground font-medium">{category.name}</span>
+                <span className="text-foreground font-medium">
+                  {category.name}
+                </span>
               </>
             ) : (
-              <span className="text-foreground font-medium">{ALL_CATALOG.name}</span>
+              <span className="text-foreground font-medium">
+                {ALL_CATALOG.name}
+              </span>
             )}
           </div>
 
@@ -125,17 +159,24 @@ export default function ShopCategory() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex gap-8">
           {/* Sidebar */}
-          <aside className={`${sidebarOpen ? "w-56" : "w-0 overflow-hidden"} flex-shrink-0 transition-all duration-300`}>
+          <aside
+            className={`${sidebarOpen ? "w-56" : "w-0 overflow-hidden"} flex-shrink-0 transition-all duration-300`}
+          >
             <div className="space-y-6">
               {/* Danh mục trước — chọn “tất cả” hoặc từng nhóm */}
               <div>
-                <h3 className="font-heading font-bold text-sm text-foreground mb-3 uppercase tracking-wide">Danh mục</h3>
+                <h3 className="font-heading font-bold text-sm text-foreground mb-3 uppercase tracking-wide">
+                  Danh mục
+                </h3>
                 <div className="space-y-1.5">
                   <NavLink
                     to="/shop"
                     end
                     className={({ isActive }) =>
-                      `block font-body text-sm px-3 py-2 rounded-lg transition-all ${isActive ? "bg-primary text-white font-semibold" : "text-muted-foreground hover:bg-muted hover:text-primary"
+                      `block font-body text-sm px-3 py-2 rounded-lg transition-all ${
+                        isActive
+                          ? "bg-primary text-white font-semibold"
+                          : "text-muted-foreground hover:bg-muted hover:text-primary"
                       }`
                     }
                   >
@@ -146,7 +187,10 @@ export default function ShopCategory() {
                       key={c.slug}
                       to={`/shop/${c.slug}`}
                       className={({ isActive }) =>
-                        `block font-body text-sm px-3 py-2 rounded-lg transition-all ${isActive ? "bg-primary text-white font-semibold" : "text-muted-foreground hover:bg-muted hover:text-primary"
+                        `block font-body text-sm px-3 py-2 rounded-lg transition-all ${
+                          isActive
+                            ? "bg-primary text-white font-semibold"
+                            : "text-muted-foreground hover:bg-muted hover:text-primary"
                         }`
                       }
                     >
@@ -158,14 +202,19 @@ export default function ShopCategory() {
 
               {/* Lọc theo giá */}
               <div>
-                <h3 className="font-heading font-bold text-sm text-foreground mb-3 uppercase tracking-wide">Lọc theo giá</h3>
+                <h3 className="font-heading font-bold text-sm text-foreground mb-3 uppercase tracking-wide">
+                  Lọc theo giá
+                </h3>
                 <div className="space-y-1.5">
                   {PRICE_RANGES.map((range, i) => (
                     <button
                       key={i}
                       onClick={() => setPriceRange(i)}
-                      className={`w-full text-left font-body text-sm px-3 py-2 rounded-lg transition-all ${priceRange === i ? "bg-primary text-white font-semibold" : "hover:bg-muted text-muted-foreground"
-                        }`}
+                      className={`w-full text-left font-body text-sm px-3 py-2 rounded-lg transition-all ${
+                        priceRange === i
+                          ? "bg-primary text-white font-semibold"
+                          : "hover:bg-muted text-muted-foreground"
+                      }`}
                     >
                       {range.label}
                     </button>
@@ -187,7 +236,9 @@ export default function ShopCategory() {
                   <SlidersHorizontal className="w-4 h-4" />
                   Bộ lọc
                 </button>
-                <span className="font-body text-sm text-muted-foreground">{catProducts.length} sản phẩm</span>
+                <span className="font-body text-sm text-muted-foreground">
+                  {catProducts.length} sản phẩm
+                </span>
               </div>
               <select
                 value={sortBy}
@@ -212,7 +263,9 @@ export default function ShopCategory() {
                   <motion.div
                     key={product.id}
                     className="h-full relative"
-                    style={{ zIndex: hoveredProductId === product.id ? 40 : 10 }}
+                    style={{
+                      zIndex: hoveredProductId === product.id ? 40 : 10,
+                    }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: i * 0.05 }}
@@ -229,6 +282,8 @@ export default function ShopCategory() {
           </main>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
@@ -256,13 +311,17 @@ function ProductCard({ product, isHovered, onHover }) {
           />
         )}
         {product.tag && (
-          <span className={`absolute top-2 left-2 font-body text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full ${TAG_COLORS[product.tag] || "bg-foreground text-background"}`}>
+          <span
+            className={`absolute top-2 left-2 font-body text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full ${TAG_COLORS[product.tag] || "bg-foreground text-background"}`}
+          >
             {product.tag}
           </span>
         )}
         {!product.inStock && (
           <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
-            <span className="font-body text-xs font-semibold text-muted-foreground bg-background border border-border rounded-full px-3 py-1">Hết hàng</span>
+            <span className="font-body text-xs font-semibold text-muted-foreground bg-background border border-border rounded-full px-3 py-1">
+              Hết hàng
+            </span>
           </div>
         )}
         {/* Shop now on hover */}
@@ -280,18 +339,31 @@ function ProductCard({ product, isHovered, onHover }) {
       </div>
 
       <div className="p-3.5 flex flex-col flex-1">
-        <p className="font-body text-[10px] text-primary font-bold uppercase tracking-wide">{product.brand}</p>
-        <h4 className="font-body font-medium text-sm text-foreground mt-0.5 leading-snug line-clamp-2">{product.name}</h4>
+        <p className="font-body text-[10px] text-primary font-bold uppercase tracking-wide">
+          {product.brand}
+        </p>
+        <h4 className="font-body font-medium text-sm text-foreground mt-0.5 leading-snug line-clamp-2">
+          {product.name}
+        </h4>
         <div className="flex items-center gap-1 mt-1.5 mb-2">
           {[...Array(5)].map((_, i) => (
-            <Star key={i} className={`w-2.5 h-2.5 ${i < Math.floor(product.rating) ? "fill-primary text-primary" : "fill-muted text-muted"}`} />
+            <Star
+              key={i}
+              className={`w-2.5 h-2.5 ${i < Math.floor(product.rating) ? "fill-primary text-primary" : "fill-muted text-muted"}`}
+            />
           ))}
-          <span className="font-body text-[10px] text-muted-foreground ml-0.5">({product.reviews})</span>
+          <span className="font-body text-[10px] text-muted-foreground ml-0.5">
+            ({product.reviews})
+          </span>
         </div>
         <div className="flex items-baseline justify-between gap-1 mt-auto pt-2">
-          <p className="font-heading font-bold text-sm text-primary">{formatPrice(product.price)}</p>
+          <p className="font-heading font-bold text-sm text-primary">
+            {formatPrice(product.price)}
+          </p>
           {product.oldPrice && (
-            <p className="font-body text-[10px] text-muted-foreground line-through">{formatPrice(product.oldPrice)}</p>
+            <p className="font-body text-[10px] text-muted-foreground line-through">
+              {formatPrice(product.oldPrice)}
+            </p>
           )}
         </div>
       </div>
