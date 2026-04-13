@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
@@ -528,11 +528,6 @@ const FLOW = {
     ],
     options: [
       { label: "Gọi điện", next: "register_call" },
-      {
-        label: "Chat Zalo",
-        next: "register_zalo",
-        action: { type: "open_link", url: "https://zalo.me/0342152314" },
-      },
       { label: "Tư vấn tại phòng khám", next: "register_clinic" },
       { label: "Để lại thông tin", next: "leave_info" },
       { label: "Về menu chính", next: "main_menu", variant: "nav" },
@@ -543,22 +538,6 @@ const FLOW = {
       "Bạn vui lòng để lại số điện thoại, nhân viên HD Dental sẽ gọi lại sớm cho bạn.",
     ],
     options: [
-      { label: "Để lại thông tin", next: "leave_info" },
-      { label: "Gặp tư vấn viên", next: "consultant" },
-      { label: "Về menu chính", next: "main_menu", variant: "nav" },
-    ],
-  },
-  register_zalo: {
-    botMessages: [
-      "Hãy bấm vào đây để chat trực tiếp qua Zalo với HD Dental.",
-    ],
-    options: [
-      {
-        label: "Chat Zalo ngay ↗",
-        next: "__zalo__",
-        action: { type: "open_link", url: "https://zalo.me/0342152314" },
-        variant: "zalo",
-      },
       { label: "Để lại thông tin", next: "leave_info" },
       { label: "Gặp tư vấn viên", next: "consultant" },
       { label: "Về menu chính", next: "main_menu", variant: "nav" },
@@ -668,11 +647,6 @@ export default function ChatWidget() {
         return;
       }
 
-      if (targetStep === "__zalo__") {
-        window.open("https://zalo.me/0342152314", "_blank");
-        return;
-      }
-
       const step = FLOW[targetStep];
       if (!step) return;
 
@@ -729,9 +703,6 @@ export default function ChatWidget() {
   const optionClass = (variant) => {
     if (variant === "nav") {
       return "text-xs px-3 py-1.5 rounded-full border border-gray-200 text-gray-500 bg-white hover:bg-gray-50 hover:border-gray-300 transition-all duration-150 font-medium";
-    }
-    if (variant === "zalo") {
-      return "text-xs px-3 py-1.5 rounded-full border border-blue-400 text-blue-600 bg-white hover:bg-blue-50 transition-all duration-150 font-semibold";
     }
     return "text-xs px-3 py-1.5 rounded-full border border-red-300 text-red-600 bg-white hover:bg-red-50 hover:border-red-400 transition-all duration-150 font-medium";
   };

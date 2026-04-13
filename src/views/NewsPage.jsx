@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
@@ -404,7 +404,7 @@ export default function NewsPage() {
               {/* Slide counter — Globe Express "03" style */}
               <div className="flex items-center gap-3">
                 <span className="text-white/30 text-xs uppercase tracking-[0.3em] font-medium hidden sm:block">
-                  HD Dental News
+                  Tin tức HD Dental
                 </span>
                 <div
                   className="text-white font-black tabular-nums"

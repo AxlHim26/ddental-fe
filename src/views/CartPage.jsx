@@ -1,17 +1,10 @@
 "use client";
 
-import React from "react";
 import { Link } from "react-router-dom";
-import {
-  ArrowLeft,
-  Minus,
-  Phone,
-  Plus,
-  ShoppingCart,
-  Trash2,
-} from "lucide-react";
-import ShopNavbar from "@/components/hd-dental/ShopNavbar";
+import { Minus, Phone, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import Navbar from "@/components/hd-dental/Navbar";
+import Footer from "@/components/hd-dental/Footer";
 
 function formatPrice(price) {
   if (price >= 1000000) return `${(price / 1000000).toFixed(0)} triệu ₫`;
@@ -19,12 +12,18 @@ function formatPrice(price) {
 }
 
 export default function CartPage() {
-  const { cartItems, itemCount, subtotal, updateItemQuantity, removeItem, clearCart } =
-    useCart();
+  const {
+    cartItems,
+    itemCount,
+    subtotal,
+    updateItemQuantity,
+    removeItem,
+    clearCart,
+  } = useCart();
 
   return (
-    <div className="min-h-screen bg-background font-body pt-20 sm:pt-24">
-      <ShopNavbar />
+    <div className="min-h-screen bg-background font-body">
+      <Navbar />
 
       <div className="border-b border-border bg-muted/30 px-4 py-2.5">
         <div className="max-w-7xl mx-auto flex items-center gap-2 font-body text-xs text-muted-foreground">
@@ -36,15 +35,7 @@ export default function CartPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <Link
-          to="/shop"
-          className="inline-flex items-center gap-1.5 font-body text-sm text-muted-foreground hover:text-primary mb-6 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Tiếp tục mua sắm
-        </Link>
-
+      <div className="max-w-7xl mx-auto px-4 py-8 mt-24 lg:mt-28">
         <div className="flex flex-col gap-2 mb-8">
           <h1 className="font-heading text-3xl lg:text-4xl font-bold text-foreground">
             Giỏ hàng của bạn
@@ -127,7 +118,9 @@ export default function CartPage() {
                         <div className="inline-flex h-12 items-center justify-between rounded-2xl border border-border bg-muted/30 px-2 w-[154px]">
                           <button
                             type="button"
-                            onClick={() => updateItemQuantity(product.id, quantity - 1)}
+                            onClick={() =>
+                              updateItemQuantity(product.id, quantity - 1)
+                            }
                             disabled={quantity <= 1}
                             className="flex h-9 w-9 items-center justify-center rounded-xl text-foreground transition-colors hover:bg-background disabled:cursor-not-allowed disabled:opacity-40"
                           >
@@ -138,7 +131,9 @@ export default function CartPage() {
                           </span>
                           <button
                             type="button"
-                            onClick={() => updateItemQuantity(product.id, quantity + 1)}
+                            onClick={() =>
+                              updateItemQuantity(product.id, quantity + 1)
+                            }
                             className="flex h-9 w-9 items-center justify-center rounded-xl text-foreground transition-colors hover:bg-background"
                           >
                             <Plus className="w-4 h-4" />
@@ -177,7 +172,9 @@ export default function CartPage() {
               <div className="space-y-4 py-5">
                 <div className="flex items-center justify-between font-body text-sm text-muted-foreground">
                   <span>Số lượng sản phẩm</span>
-                  <span className="font-semibold text-foreground">{itemCount}</span>
+                  <span className="font-semibold text-foreground">
+                    {itemCount}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between font-body text-sm text-muted-foreground">
                   <span>Tạm tính</span>
@@ -204,21 +201,15 @@ export default function CartPage() {
                   className="w-full bg-primary text-white font-heading font-bold text-base py-3.5 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors"
                 >
                   <Phone className="w-5 h-5" />
-                  Gọi đặt hàng
-                </a>
-                <a
-                  href="https://zalo.me/0914233030"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full border-2 border-primary text-primary font-heading font-bold text-base py-3.5 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary hover:text-white transition-colors"
-                >
-                  Tư vấn qua Zalo
+                  Gọi đặt hàng (0914 233 030)
                 </a>
               </div>
             </aside>
           </div>
         )}
       </div>
+
+      <Footer />
     </div>
   );
 }

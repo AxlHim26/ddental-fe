@@ -1,4 +1,4 @@
-import tailwindcssAnimate from "tailwindcss-animate";
+﻿import tailwindcssAnimate from "tailwindcss-animate";
 
 /** @type {import('tailwindcss').Config} */
 const config = {
@@ -83,11 +83,18 @@ theme: {
         to: {
           height: '0'
         }
-      }
+      },
+      'shop-banner-float': {
+        '0%, 100%': { transform: 'translateY(0)' },
+        '50%': { transform: 'translateY(-14px)' },
+      },
     },
     animation: {
       'accordion-down': 'accordion-down 0.2s ease-out',
-      'accordion-up': 'accordion-up 0.2s ease-out'
+      'accordion-up': 'accordion-up 0.2s ease-out',
+      'shop-banner-float': 'shop-banner-float 3.2s ease-in-out infinite',
+      'shop-banner-float-slow': 'shop-banner-float 4.5s ease-in-out infinite',
+      'shop-banner-float-fast': 'shop-banner-float 2.7s ease-in-out infinite',
     }
   }
 },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -7,7 +7,7 @@ import { Reveal, RevealX } from "@/lib/animations";
 const categories = [
   {
     title: "Ghế Nha Khoa",
-    subtitle: "Premium Dental Chairs",
+    subtitle: "Ghế nha khoa cao cấp",
     image: "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/9d44d492a_generated_28f20030.png",
     count: "45+ sản phẩm",
     link: "/shop/ghe-nha-khoa",
@@ -15,7 +15,7 @@ const categories = [
   },
   {
     title: "Đèn Trám - Đèn Tẩy Trắng",
-    subtitle: "Curing & Whitening Lights",
+    subtitle: "Đèn trám & tẩy trắng",
     image: "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/6b1b734a3_generated_6271cc37.png",
     count: "30+ sản phẩm",
     link: "/shop/den-tram",
@@ -23,7 +23,7 @@ const categories = [
   },
   {
     title: "Thiết Bị Chẩn Đoán Hình Ảnh",
-    subtitle: "Diagnostic Imaging",
+    subtitle: "Chẩn đoán hình ảnh",
     image: "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/5201dbde0_generated_d92d08c0.png",
     count: "60+ sản phẩm",
     link: "/shop/chan-doan",

@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { motion } from "framer-motion";
 import { Reveal } from "@/lib/animations";
 
@@ -6,7 +6,9 @@ const partners = [
   { name: "NSK", logo: "/images/partners/nsk.png" },
   { name: "Prevest DenPro", logo: "/images/partners/prevest.png" },
   { name: "Tokuyama", logo: "/images/partners/tokuyama.png" },
-  { name: "DiaDent", logo: "/images/partners/diadent.png" },
+  /** PNG có nhiều margin trong suốt — scale để cân bằng với Tokuyama */
+  { name: "DiaDent", logo: "/images/partners/diadent.png", logoScale: 2.10
+   },
   { name: "DMG", logo: "/images/partners/dmg.png" },
 ];
 
@@ -29,13 +31,18 @@ function MarqueeRow({ items, duration = 30, reverse = false }) {
         {items.map((partner, i) => (
           <div
             key={i}
-            className="flex-shrink-0 px-8 py-5 rounded-2xl bg-background border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 cursor-pointer group/card flex items-center justify-center"
-            style={{ minWidth: 180, height: 80 }}
+            className="flex-shrink-0 overflow-hidden px-5 py-3 rounded-2xl bg-background border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 cursor-pointer group/card flex items-center justify-center"
+            style={{ minWidth: 220, height: 104 }}
           >
             <img
               src={partner.logo}
               alt={partner.name}
-              className="h-10 md:h-12 w-auto object-contain grayscale opacity-60 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition-all duration-500"
+              className="h-14 md:h-16 w-auto object-contain origin-center"
+              style={
+                partner.logoScale != null
+                  ? { transform: `scale(${partner.logoScale})` }
+                  : undefined
+              }
             />
           </div>
         ))}

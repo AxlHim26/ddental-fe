@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+﻿import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { products as allProducts } from "@/lib/productData";
 import ProductPageCard from "./ProductPageCard";
@@ -18,76 +18,17 @@ export default function ProductFlipBook() {
   const [previewIndex, setPreviewIndex] = useState(null);
   const [direction, setDirection] = useState(1);
   const [isFlipping, setIsFlipping] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(false);
-  const audioContextRef = useRef(null);
 
   const totalPages = products.length;
   const currentProduct = products[pageIndex];
   const nextProduct =
     previewIndex === null ? null : products[previewIndex];
 
-  const playFlipSound = useCallback(() => {
-    if (!soundEnabled || typeof window === "undefined") return;
-
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return;
-
-    if (!audioContextRef.current) {
-      audioContextRef.current = new AudioCtx();
-    }
-
-    const ctx = audioContextRef.current;
-
-    if (ctx.state === "suspended") {
-      ctx.resume();
-    }
-
-    const now = ctx.currentTime;
-
-    // Low "thump" to suggest page inertia.
-    const osc = ctx.createOscillator();
-    const oscGain = ctx.createGain();
-    osc.type = "triangle";
-    osc.frequency.setValueAtTime(180, now);
-    osc.frequency.exponentialRampToValueAtTime(80, now + 0.08);
-    oscGain.gain.setValueAtTime(0.0001, now);
-    oscGain.gain.exponentialRampToValueAtTime(0.05, now + 0.01);
-    oscGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
-    osc.connect(oscGain);
-    oscGain.connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.11);
-
-    // Soft paper "swish" using filtered noise.
-    const duration = 0.12;
-    const buffer = ctx.createBuffer(1, ctx.sampleRate * duration, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < data.length; i += 1) {
-      data[i] = (Math.random() * 2 - 1) * 0.5;
-    }
-    const source = ctx.createBufferSource();
-    source.buffer = buffer;
-    const filter = ctx.createBiquadFilter();
-    filter.type = "highpass";
-    filter.frequency.setValueAtTime(1200, now);
-    const noiseGain = ctx.createGain();
-    noiseGain.gain.setValueAtTime(0.0001, now);
-    noiseGain.gain.exponentialRampToValueAtTime(0.02, now + 0.01);
-    noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-    source.connect(filter);
-    filter.connect(noiseGain);
-    noiseGain.connect(ctx.destination);
-    source.start(now);
-    source.stop(now + duration);
-  }, [soundEnabled]);
-
   const startFlip = (nextIndex, nextDirection) => {
     if (isFlipping || nextIndex === pageIndex) return;
     setDirection(nextDirection);
     setPreviewIndex(nextIndex);
     setIsFlipping(true);
-    playFlipSound();
   };
 
   const goNext = () => {
@@ -120,10 +61,10 @@ export default function ProductFlipBook() {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-5 lg:px-8">
         <header className="mb-10 text-center sm:mb-12">
           <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-zinc-500">
-            Product Catalogue
+            Danh mục sản phẩm
           </p>
-          <h2 className="mt-3 text-balance font-heading text-3xl font-black text-zinc-900 sm:text-4xl lg:text-5xl">
-            Flip Book Product Showcase
+          <h2 className="mt-3 text-balance font-heading text-3xl font-black text-primary sm:text-4xl lg:text-5xl">
+            Sản phẩm nổi bật
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-pretty font-body text-sm leading-relaxed text-zinc-600 sm:text-base">
             Khám phá thiết bị nha khoa cao cấp với trải nghiệm lật trang catalogue hiện đại, tinh gọn và tập trung vào sản phẩm.
@@ -257,7 +198,7 @@ export default function ProductFlipBook() {
               disabled={isFlipping}
               className="inline-flex min-w-[132px] items-center justify-center rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-900 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Previous
+              Trước
             </button>
 
             <span className="px-2 text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
@@ -268,21 +209,9 @@ export default function ProductFlipBook() {
               type="button"
               onClick={goNext}
               disabled={isFlipping}
-              className="inline-flex min-w-[132px] items-center justify-center rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex min-w-[132px] items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Next
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setSoundEnabled((prev) => !prev)}
-              className={`inline-flex min-w-[132px] items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors ${
-                soundEnabled
-                  ? "border-zinc-900 bg-zinc-900 text-white hover:bg-zinc-700"
-                  : "border-zinc-300 bg-white text-zinc-700 hover:border-zinc-900 hover:text-zinc-900"
-              }`}
-            >
-              Sound: {soundEnabled ? "On" : "Off"}
+              Sau
             </button>
           </div>
         </div>

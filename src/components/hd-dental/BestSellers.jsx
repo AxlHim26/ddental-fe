@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
 import { products as allProducts } from "@/lib/productData";
 
 const products = [...allProducts]
-   .filter((p) => p.tag === "Best Seller" || p.rating >= 4.8)
+   .filter((p) => p.tag === "Bán chạy" || p.rating >= 4.8)
    .sort((a, b) => b.rating - a.rating)
    .slice(0, 5);
 
@@ -46,7 +46,7 @@ export default function BestSellers() {
          <div className="absolute top-8 left-0 right-0 px-8 flex justify-center items-center z-30 pointer-events-none">
             <div className="flex items-center gap-4 text-foreground/80 text-[10px] tracking-[0.3em] uppercase font-bold">
                <span className="w-12 h-[1px] bg-foreground/20 shadow-sm hidden sm:block" />
-               CLASSIC COLLECTIONS
+               BỘ SƯU TẬP KINH ĐIỂN
                <span className="w-12 h-[1px] bg-foreground/20 shadow-sm hidden sm:block" />
             </div>
          </div>
@@ -63,7 +63,7 @@ export default function BestSellers() {
             >
                <div className="flex justify-between items-end w-full max-w-[90vw] md:max-w-[70vw] mb-0 px-4">
                   <span className="text-foreground/80 text-[16px] md:text-3xl font-heading tracking-[0.1em] md:tracking-widest uppercase font-bold">HD DENTAL</span>
-                  <span className="text-foreground/80 text-[16px] md:text-3xl font-heading tracking-[0.1em] md:tracking-widest uppercase font-bold">TOP RATED</span>
+                  <span className="text-foreground/80 text-[16px] md:text-3xl font-heading tracking-[0.1em] md:tracking-widest uppercase font-bold">ĐÁNH GIÁ CAO</span>
                </div>
                <h2 className="font-heading font-black uppercase whitespace-nowrap text-transparent [-webkit-text-stroke:2px_rgba(0,0,0,0.06)] drop-shadow-sm" style={{ fontSize: "clamp(6rem, 19vw, 22rem)", lineHeight: 0.8, letterSpacing: "-0.02em" }}>
                   {getShortName(products[activeIdx].name)}
@@ -163,7 +163,7 @@ export default function BestSellers() {
                      {products[activeIdx].description}
                   </p>
                   <button onClick={() => setQuickView(products[activeIdx])} className="inline-block pointer-events-auto bg-primary border-none text-white hover:bg-red-700 text-[9px] sm:text-[10px] font-black uppercase tracking-widest px-8 py-3 rounded-full transition-all duration-300 drop-shadow-md">
-                     DISCOVER MORE
+                     KHÁM PHÁ THÊM
                   </button>
                </motion.div>
             </AnimatePresence>
@@ -239,23 +239,23 @@ export default function BestSellers() {
                            {/* SPECS */}
                            <div className="space-y-3 sm:space-y-4 text-[9px] md:text-[10px] uppercase font-bold tracking-widest text-[#999]">
                               <div className="flex">
-                                 <span className="w-32 sm:w-40">Brand</span>
+                                 <span className="w-32 sm:w-40">Thương hiệu</span>
                                  <span className="text-black">{quickView.brand}</span>
                               </div>
                               <div className="flex">
-                                 <span className="w-32 sm:w-40">Category</span>
+                                 <span className="w-32 sm:w-40">Danh mục</span>
                                  <span className="text-black">{quickView.category.replace("-", " ")}</span>
                               </div>
                               <div className="flex">
-                                 <span className="w-32 sm:w-40">Rating</span>
+                                 <span className="w-32 sm:w-40">Đánh giá</span>
                                  <span className="text-black">{quickView.rating} / 5.0 ({quickView.reviews})</span>
                               </div>
                               <div className="flex">
-                                 <span className="w-32 sm:w-40">Condition</span>
-                                 <span className="text-black">New Product</span>
+                                 <span className="w-32 sm:w-40">Tình trạng</span>
+                                 <span className="text-black">Sản phẩm mới</span>
                               </div>
                               <div className="flex mt-8 md:mt-12 pt-4 border-t border-[#EEE]">
-                                 <span className="w-32 sm:w-40 text-black">List Price</span>
+                                 <span className="w-32 sm:w-40 text-black">Giá niêm yết</span>
                                  <span className="text-black">{quickView.price.toLocaleString("vi")} ₫</span>
                               </div>
                            </div>

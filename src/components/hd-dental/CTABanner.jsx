@@ -1,8 +1,9 @@
-import React from "react";
+﻿import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Phone, ArrowRight } from "lucide-react";
 import { Reveal } from "@/lib/animations";
+import { COMPANY_PHONE, companyTelHref } from "@/lib/seo";
 
 export default function CTABanner() {
   return (
@@ -28,10 +29,10 @@ export default function CTABanner() {
           Liên hệ ngay để được tư vấn miễn phí và nhận báo giá phù hợp với nhu cầu.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <a href="tel:0914233030"
+          <a href={companyTelHref()}
             className="inline-flex items-center gap-2.5 bg-white text-primary font-body font-bold text-sm px-8 py-4 rounded-full hover:bg-gray-100 transition-all shadow-xl hover:-translate-y-1 group">
             <Phone className="w-4 h-4" />
-            0914 233 030
+            {COMPANY_PHONE}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
           <Link to="/dich-vu"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import useScrollReveal from "./useScrollReveal";
@@ -75,7 +75,7 @@ export default function AboutSection() {
             <div className="rounded-3xl overflow-hidden">
               <img
                 src="https://media.base44.com/images/public/69cff7a985a4c7940dcab568/310517f13_generated_3f413930.png"
-                alt="HD Dental office"
+                alt="Văn phòng HD Dental"
                 className="w-full h-[400px] lg:h-[560px] object-cover"
               />
             </div>
