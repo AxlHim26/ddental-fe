@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -529,10 +529,27 @@ function ServiceEquipment() {
 ══════════════════════════════════════════════════════ */
 function ServiceMarketing() {
   const pkgs = [
-    "Gói Marketing Cơ Bản",
-    "Gói Marketing Toàn Diện",
-    "Gói Marketing Cao Cấp",
+    {
+      label: "Gói Marketing Cơ Bản",
+      img: "/images/packages/mar cơ bản.png",
+    },
+    {
+      label: "Gói Marketing Toàn Diện",
+      img: "/images/packages/mar toàn diện.png",
+    },
+    {
+      label: "Gói Marketing Cao Cấp",
+      img: "/images/packages/mar cao cấp.png",
+    },
   ];
+
+  const [hoveredPkg, setHoveredPkg] = useState(null);
+
+  const activeImg =
+    hoveredPkg !== null
+      ? pkgs[hoveredPkg].img
+      : "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/9d44d492a_generated_28f20030.png";
+
   return (
     <section
       id="service-marketing"
@@ -553,7 +570,7 @@ function ServiceMarketing() {
         </Reveal>
 
         <div className="grid lg:grid-cols-5 gap-10 items-start">
-          {/* LEFT col: big heading + content (3/5) */}
+          {/* LEFT col */}
           <div className="lg:col-span-3">
             <RevealX x={-60}>
               <h2 className="font-heading font-black text-5xl lg:text-6xl text-gray-900 leading-none mb-2">
@@ -573,15 +590,23 @@ function ServiceMarketing() {
 
             <div className="grid sm:grid-cols-3 gap-4 mb-10 items-stretch">
               {pkgs.map((p, i) => (
-                <ScaleIn key={p} delay={0.1 + i * 0.12} className="h-full">
-                  <div className="group relative overflow-hidden bg-white rounded-2xl border border-gray-200 p-5 hover:border-primary hover:shadow-lg hover:shadow-primary/10 transition-all cursor-default h-full">
-                    <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center mb-3 group-hover:bg-primary/15 transition-colors">
+                <ScaleIn key={p.label} delay={0.1 + i * 0.12} className="h-full">
+                  <div
+                    className={`group relative overflow-hidden bg-white rounded-2xl border p-5 transition-all cursor-default h-full ${
+                      hoveredPkg === i
+                        ? "border-primary shadow-lg shadow-primary/10"
+                        : "border-gray-200 hover:border-primary hover:shadow-lg hover:shadow-primary/10"
+                    }`}
+                    onMouseEnter={() => setHoveredPkg(i)}
+                    onMouseLeave={() => setHoveredPkg(null)}
+                  >
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-3 transition-colors ${hoveredPkg === i ? "bg-primary/15" : "bg-primary/8 group-hover:bg-primary/15"}`}>
                       <span className="font-heading font-black text-primary text-xs">
                         0{i + 1}
                       </span>
                     </div>
                     <p className="font-body font-bold text-sm text-gray-800 leading-snug">
-                      {p}
+                      {p.label}
                     </p>
                     <motion.div
                       className="absolute bottom-0 left-0 h-0.5 bg-primary"
@@ -606,21 +631,27 @@ function ServiceMarketing() {
             </Reveal>
           </div>
 
-          {/* RIGHT col: image (2/5) */}
+          {/* RIGHT col: image changes on hover */}
           <div className="lg:col-span-2">
             <RevealX x={60} delay={0.1}>
               <div className="relative">
                 <div className="rounded-3xl overflow-hidden shadow-xl shadow-gray-200 ring-1 ring-gray-100">
-                  <img
-                    src="https://media.base44.com/images/public/69cff7a985a4c7940dcab568/9d44d492a_generated_28f20030.png"
-                    alt="Marketing nha khoa"
-                    className="w-full h-[480px] object-cover"
-                  />
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={activeImg}
+                      src={activeImg}
+                      alt="Marketing nha khoa"
+                      className="w-full h-[480px] object-cover"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </AnimatePresence>
                 </div>
                 <div className="absolute top-5 right-5 w-12 h-12 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/40">
                   <span className="font-heading font-black text-white">03</span>
                 </div>
-                {/* Floating stat */}
                 <motion.div
                   className="absolute -bottom-5 left-5 bg-gray-900 text-white rounded-2xl px-5 py-4 shadow-xl"
                   animate={{ y: [0, -6, 0] }}
@@ -648,8 +679,8 @@ function ServiceMarketing() {
 function ServiceTraining() {
   const items = [
     "Đào tạo sử dụng thiết bị nha khoa",
-    "Dịch vụ tuyển dụng & đào tạo nhân sự",
-    "HD Academy — Chứng chỉ quốc tế",
+    // "Dịch vụ tuyển dụng & đào tạo nhân sự",
+    // "HD Academy — Chứng chỉ quốc tế",
     "Hội thảo & workshop thường kỳ",
   ];
   return (
