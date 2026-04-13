@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { motion } from "framer-motion";
 import useScrollReveal from "./useScrollReveal";
 
@@ -35,7 +35,7 @@ export default function FoundersSection() {
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className="font-body text-primary text-sm font-bold uppercase tracking-[0.2em]">Co-founder</span>
+          <span className="font-body text-primary text-sm font-bold uppercase tracking-[0.2em]">Ban sáng lập</span>
           <h2 className="font-heading font-bold text-4xl md:text-5xl text-background mt-4">
             Đồng sáng lập
           </h2>

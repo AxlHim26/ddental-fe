@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -64,7 +64,7 @@ export default function LoginPage() {
           <div className="mb-4 flex justify-center">
             <img
               src="/images/logo.png"
-              alt="HD Dental Logo"
+              alt="Logo HD Dental"
               className="h-16 md:h-20 lg:h-24 w-auto object-contain origin-center scale-125 md:scale-150 transition-transform"
             />
           </div>
@@ -85,14 +85,14 @@ export default function LoginPage() {
             <p className="text-sm text-destructive font-body bg-destructive/10 rounded-lg px-3 py-2">{error}</p>
           )}
           <div className="space-y-2">
-            <Label htmlFor="login-email">Email</Label>
+            <Label htmlFor="login-email">Địa chỉ email</Label>
             <Input
               id="login-email"
               type="email"
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
+              placeholder="tenban@email.com"
               className="h-11"
             />
           </div>

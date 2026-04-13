@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, LogIn, LogOut } from "lucide-react";
@@ -94,8 +94,8 @@ export default function Navbar() {
         >
           <img
             src="/images/logo.png"
-            alt="HD Dental Logo"
-            className="h-16 md:h-20 lg:h-24 w-auto object-contain origin-left scale-125 md:scale-150 transition-transform"
+            alt="Logo HD Dental"
+            className="h-14 sm:h-16 md:h-20 lg:h-[4.5rem] xl:h-24 w-auto object-contain origin-left scale-110 sm:scale-125 md:scale-[1.35] lg:scale-125 xl:scale-150 transition-transform"
           />
         </Link>
 
@@ -142,9 +142,11 @@ export default function Navbar() {
             </button>
           )}
           <Link
-            to="/#contact"
+            to="/lien-he"
             onClick={() => setMobileOpen(false)}
-            className="bg-primary text-primary-foreground font-body text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 hover:bg-primary/90 transition-colors"
+            className={`bg-primary text-primary-foreground font-body text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 hover:bg-primary/90 transition-colors ${
+              isActivePath("/lien-he") ? "ring-2 ring-offset-2 ring-offset-background ring-white/90" : ""
+            }`}
           >
             <Phone className="w-4 h-4" />
             Liên hệ
@@ -209,7 +211,7 @@ export default function Navbar() {
                 </button>
               )}
               <Link
-                to="/#contact"
+                to="/lien-he"
                 onClick={() => setMobileOpen(false)}
                 className="bg-primary text-primary-foreground font-body text-sm font-semibold px-5 py-3 rounded-full flex items-center justify-center gap-2 mt-2"
               >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const reviews = [
@@ -7,28 +7,28 @@ const reviews = [
     name: "BS. Hoang Anh",
     avatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=200&q=80",
     stars: 5,
-    text: "Chat luong hoan thien va do on dinh cua thiet bi rat an tuong. Phong kham van hanh muot hon sau khi nang cap.",
+    text: "Chất lượng hoàn thiện và độ ổn định của thiết bị rất ấn tượng. Phòng khám vận hành mượt hơn sau khi nâng cấp.",
   },
   {
     id: "rv-2",
     name: "BS. Minh Chau",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
     stars: 5,
-    text: "Dich vu huong dan su dung va bao tri rat chuyen nghiep. Giao dien san pham ro rang, de so sanh va chon mua.",
+    text: "Dịch vụ hướng dẫn sử dụng và bảo trì rất chuyên nghiệp. Giao diện sản phẩm rõ ràng, dễ so sánh và chọn mua.",
   },
   {
     id: "rv-3",
     name: "BS. Tran Duc",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
     stars: 5,
-    text: "Thiet bi van hanh em, hinh anh chan doan sac net. Truc quan tren mobile tot hon rat nhieu sau khi toi uu.",
+    text: "Thiết bị vận hành êm, hình ảnh chẩn đoán sắc nét. Trải nghiệm trên điện thoại tốt hơn rất nhiều sau khi tối ưu.",
   },
   {
     id: "rv-4",
     name: "BS. Nha Quynh",
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80",
     stars: 5,
-    text: "Cam giac nhu dang xem catalogue cao cap. Trinh bay dep, gon, va dieu huong san pham nhanh tren moi thiet bi.",
+    text: "Cảm giác như đang xem catalogue cao cấp. Trình bày đẹp, gọn và điều hướng sản phẩm nhanh trên mọi thiết bị.",
   },
 ];
 
@@ -74,10 +74,10 @@ export default function ReviewSection() {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-5 lg:px-8">
         <header className="mb-9 text-center sm:mb-10">
           <h2 className="text-balance font-heading text-2xl font-black text-zinc-900 sm:text-3xl lg:text-4xl">
-            Khach hang noi gi ve san pham
+            Khách hàng nói gì về sản phẩm
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-pretty font-body text-sm leading-relaxed text-zinc-600 sm:text-base">
-            Phan hoi thuc te tu cac phong kham da su dung thiet bi tai HD Dental.
+            Phản hồi thực tế từ các phòng khám đã sử dụng thiết bị tại HD Dental.
           </p>
         </header>
 
@@ -131,14 +131,14 @@ export default function ReviewSection() {
             onClick={goPrev}
             className="inline-flex min-w-[120px] items-center justify-center rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-900 hover:text-zinc-900"
           >
-            Previous
+            Trước
           </button>
           <button
             type="button"
             onClick={goNext}
             className="inline-flex min-w-[120px] items-center justify-center rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-zinc-700"
           >
-            Next
+            Sau
           </button>
         </div>
       </div>

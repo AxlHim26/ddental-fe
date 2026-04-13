@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import ShopNavbar from "@/components/hd-dental/ShopNavbar";
 import { useCart } from "@/context/CartContext";
+import { COMPANY_PHONE, companyTelHref } from "@/lib/seo";
 
 function formatPrice(price) {
   if (price >= 1000000) return `${(price / 1000000).toFixed(0)} triệu ₫`;
@@ -200,19 +201,11 @@ export default function CartPage() {
 
               <div className="mt-5 space-y-3">
                 <a
-                  href="tel:0914233030"
+                  href={companyTelHref()}
                   className="w-full bg-primary text-white font-heading font-bold text-base py-3.5 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors"
                 >
                   <Phone className="w-5 h-5" />
-                  Gọi đặt hàng
-                </a>
-                <a
-                  href="https://zalo.me/0914233030"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full border-2 border-primary text-primary font-heading font-bold text-base py-3.5 rounded-2xl flex items-center justify-center gap-2 hover:bg-primary hover:text-white transition-colors"
-                >
-                  Tư vấn qua Zalo
+                  Gọi đặt hàng ({COMPANY_PHONE})
                 </a>
               </div>
             </aside>

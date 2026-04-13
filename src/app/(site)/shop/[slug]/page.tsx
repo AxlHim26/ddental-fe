@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: category.description,
     path: `/shop/${category.slug}`,
     image: category.banner,
-    keywords: [category.name, category.name_en, "danh mục nha khoa"],
+    keywords: [category.name, "danh mục nha khoa", "HD Dental", "thiết bị nha khoa"],
   });
 }
 

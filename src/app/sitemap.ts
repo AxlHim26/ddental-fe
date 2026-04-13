@@ -1,4 +1,4 @@
-import type { MetadataRoute } from "next";
+﻿import type { MetadataRoute } from "next";
 import { articles } from "@/lib/newsData";
 import { categories, products } from "@/lib/productData";
 import { SITE_URL } from "@/lib/seo";
@@ -36,6 +36,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/lien-he`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.75,
     },
   ];
 
