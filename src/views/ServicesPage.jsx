@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
@@ -22,10 +22,12 @@ import Footer from "../components/hd-dental/Footer";
 import { COMPANY_PHONE, companyTelHref } from "@/lib/seo";
 
 import dynamic from "next/dynamic";
-const ClinicScene = dynamic(
-  () => import("../components/Clinic3D/ClinicScene"),
+// Showroom 3D Pro
+const ClinicShowroomPro = dynamic(
+  () => import("../components/Clinic3DPro/ClinicShowroomPro"),
   { ssr: false },
 );
+
 
 /* ──────────────── EASING & VARIANTS ──────────────── */
 const E = [0.22, 1, 0.36, 1];
@@ -139,7 +141,7 @@ export default function ServicesPage() {
       <HeroBanner />
       <StatsBar />
       <ServiceClinicDesign />
-      <ClinicScene />
+      <ClinicShowroomPro />
       <ServiceEquipment />
       <ServiceMarketing />
       <ServiceTraining />
