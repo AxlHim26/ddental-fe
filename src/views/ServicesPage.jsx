@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
@@ -597,11 +597,10 @@ function ServiceMarketing() {
                   className="h-full"
                 >
                   <div
-                    className={`group relative overflow-hidden bg-white rounded-2xl border p-5 transition-all cursor-default h-full ${
-                      hoveredPkg === i
+                    className={`group relative overflow-hidden bg-white rounded-2xl border p-5 transition-all cursor-default h-full ${hoveredPkg === i
                         ? "border-primary shadow-lg shadow-primary/10"
                         : "border-gray-200 hover:border-primary hover:shadow-lg hover:shadow-primary/10"
-                    }`}
+                      }`}
                     onMouseEnter={() => setHoveredPkg(i)}
                     onMouseLeave={() => setHoveredPkg(null)}
                   >
@@ -628,13 +627,13 @@ function ServiceMarketing() {
             </div>
 
             <Reveal delay={0.3}>
-              <a
-                href={companyTelHref()}
+              <Link
+                to="/lien-he"
                 className="inline-flex items-center gap-2 bg-primary text-white font-body font-bold text-sm px-7 py-3.5 rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:-translate-y-0.5 group w-fit"
               >
                 LIÊN HỆ TƯ VẤN{" "}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </Link>
             </Reveal>
           </div>
 
@@ -736,13 +735,13 @@ function ServiceTraining() {
                 </motion.li>
               ))}
             </ul>
-            <a
-              href={companyTelHref()}
+            <Link
+              to="/lien-he"
               className="inline-flex items-center gap-2 bg-primary text-white font-body font-bold text-sm px-7 py-3.5 rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 hover:-translate-y-0.5 group w-fit"
             >
               LIÊN HỆ TƯ VẤN{" "}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
           </RevealX>
         </div>
 
@@ -963,14 +962,14 @@ function CTABanner() {
           cầu.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <a
-            href={companyTelHref()}
+          <Link
+            to="/lien-he"
             className="inline-flex items-center gap-2.5 bg-white text-primary font-body font-bold text-sm px-8 py-4 rounded-full hover:bg-gray-100 transition-all shadow-xl hover:-translate-y-1 group"
           >
             <Phone className="w-4 h-4" />
-            {COMPANY_PHONE}
+            Liên hệ tư vấn
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          </Link>
           <Link
             to="/"
             className="inline-flex items-center gap-2 border-2 border-white/40 text-white font-body font-bold text-sm px-8 py-4 rounded-full hover:border-white hover:bg-white/10 transition-all"

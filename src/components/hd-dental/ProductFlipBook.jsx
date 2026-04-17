@@ -1,4 +1,4 @@
-﻿import React, { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { products as allProducts } from "@/lib/productData";
 import ProductPageCard from "./ProductPageCard";

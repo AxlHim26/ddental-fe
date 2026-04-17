@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -24,15 +24,15 @@ export default function ProductPageCard({ product, pageIndex, totalPages }) {
         </div>
 
         <div className="relative flex min-w-0 flex-col justify-center rounded-2xl bg-white p-5 sm:p-6 lg:rounded-l-none lg:pl-8">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-400">
+          <p className="mb-4 text-left text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-400">
             Trưng bày sản phẩm
           </p>
 
-          <h3 className="text-balance font-heading text-2xl font-black leading-tight text-primary sm:text-3xl lg:text-4xl">
+          <h3 className="text-left text-balance font-heading text-2xl font-black leading-tight text-primary sm:text-3xl lg:text-4xl">
             {product.name}
           </h3>
 
-          <p className="mt-4 text-pretty font-body text-sm leading-relaxed text-zinc-600 sm:text-base">
+          <p className="mt-4 text-justify text-pretty font-body text-sm leading-relaxed text-zinc-600 sm:text-base">
             {product.description}
           </p>
 

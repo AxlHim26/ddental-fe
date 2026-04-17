@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import useScrollReveal from "./useScrollReveal";
@@ -130,7 +130,7 @@ export default function AboutSection() {
                     <tab.icon className="w-6 h-6 text-primary" />
                   </div>
                 )}
-                <h3 className="font-heading font-bold text-3xl md:text-4xl text-foreground mb-5">
+                <h3 className="text-left font-heading font-bold text-3xl md:text-4xl text-foreground mb-5">
                   {tab.heading}
                 </h3>
                 <p className="font-body text-muted-foreground leading-relaxed mb-4">{tab.body}</p>

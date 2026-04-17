@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
@@ -196,9 +196,9 @@ export default function NewsPage() {
                     {/* BIG headline — Globe Express style */}
                     <motion.h1
                       variants={textItem}
-                      className="font-black uppercase leading-[0.95] text-white mb-6"
+                      className="text-left font-black uppercase leading-[0.95] text-white mb-6"
                       style={{
-                        fontSize: "clamp(2.4rem, 4.8vw, 4.8rem)",
+                        fontSize: "clamp(2rem, 3.6vw, 3.6rem)",
                         textShadow: "0 4px 40px rgba(0,0,0,0.6)",
                         letterSpacing: "-0.01em",
                       }}
@@ -521,7 +521,7 @@ export default function NewsPage() {
                     <Calendar className="w-3.5 h-3.5" />
                     {formatDate(post.date)}
                   </time>
-                  <h3 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-gray-900 mt-4 leading-tight">
+                  <h3 className="text-left font-heading font-bold text-xl sm:text-2xl lg:text-3xl text-gray-900 mt-4 leading-tight">
                     <Link
                       to={`/news/${post.slug}`}
                       className="hover:text-primary transition-colors duration-300"
@@ -614,7 +614,7 @@ export default function NewsPage() {
                       {formatDate(post.date)}
                     </time>
                   </div>
-                  <h3 className="font-heading font-bold text-lg text-gray-900 mt-3 leading-snug line-clamp-2 group-hover:text-primary transition-colors duration-300">
+                  <h3 className="text-left font-heading font-bold text-base text-gray-900 mt-3 leading-snug line-clamp-2 group-hover:text-primary transition-colors duration-300">
                     <Link to={`/news/${post.slug}`}>{post.title}</Link>
                   </h3>
                   <p className="text-sm text-gray-500 mt-2 line-clamp-2 leading-relaxed">
