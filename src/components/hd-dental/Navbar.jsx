@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, LogIn, LogOut, ShoppingCart, User } from "lucide-react";
@@ -29,6 +29,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const onHome = location.pathname === "/";
+  // Chỉ áp dụng chữ màu trắng cho Trang chủ và Trang Dịch vụ
+  const isDarkHeader = ["/", "/dich-vu"].includes(location.pathname);
   const showAuthAction = ready && !skipped;
   const isActivePath = (path) =>
     location.pathname === path || location.pathname.startsWith(`${path}/`);
@@ -37,7 +39,7 @@ export default function Navbar() {
     `relative font-body text-sm font-medium tracking-wide transition-colors ${
       isActive
         ? "text-primary"
-        : scrolled || !onHome
+        : scrolled || !isDarkHeader
           ? "text-foreground hover:text-primary"
           : "text-white/90 hover:text-white"
     }`;
@@ -51,7 +53,7 @@ export default function Navbar() {
     `rounded-lg px-3 py-2 font-body text-sm font-medium transition-colors ${
       isActive
         ? "bg-primary/10 text-primary"
-        : "text-foreground hover:text-primary hover:bg-muted/70"
+        : "text-foreground active:text-primary active:bg-muted/70"
     }`;
 
   useEffect(() => {
@@ -85,8 +87,8 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled || !onHome
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 rounded-b-2xl sm:rounded-b-3xl ${
+        scrolled
           ? "bg-background/95 backdrop-blur-md shadow-lg"
           : "bg-transparent"
       }`}
@@ -94,7 +96,7 @@ export default function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-3 lg:py-4 flex items-center justify-between">
         <Link
           to="/"
           onClick={() => {
@@ -105,7 +107,7 @@ export default function Navbar() {
           <img
             src="/images/logo.png"
             alt="Logo HD Dental"
-            className="h-14 sm:h-16 md:h-20 lg:h-[4.5rem] xl:h-24 w-auto object-contain origin-left scale-110 sm:scale-125 md:scale-[1.35] lg:scale-125 xl:scale-150 transition-transform"
+            className="h-10 sm:h-12 md:h-14 lg:h-16 xl:h-[4.5rem] w-auto object-contain origin-left scale-110 lg:scale-[1.15] xl:scale-125 transition-all"
           />
         </Link>
 
@@ -139,7 +141,7 @@ export default function Navbar() {
             <Link
               to="/gio-hang"
               className={`relative inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors hover:text-primary hover:border-primary ${
-                scrolled || !onHome
+                scrolled || !isDarkHeader
                   ? "border-border text-foreground"
                   : "border-white/30 text-white/90"
               }`}
@@ -161,7 +163,7 @@ export default function Navbar() {
                   <button
                     type="button"
                     className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors hover:text-primary hover:border-primary ${
-                      scrolled || !onHome
+                      scrolled || !isDarkHeader
                         ? "border-border text-foreground"
                         : "border-white/30 text-white/90"
                     }`}
@@ -191,7 +193,7 @@ export default function Navbar() {
                 type="button"
                 onClick={goToLogin}
                 className={`font-body text-sm font-medium flex items-center gap-1.5 hover:text-primary transition-colors ${
-                  scrolled || !onHome ? "text-foreground" : "text-white/90"
+                  scrolled || !isDarkHeader ? "text-foreground" : "text-white/90"
                 }`}
               >
                 <LogIn className="w-4 h-4" />
@@ -214,7 +216,7 @@ export default function Navbar() {
 
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className={`lg:hidden ${scrolled || !onHome ? "text-foreground" : "text-white"}`}
+          className={`lg:hidden ${scrolled || !isDarkHeader ? "text-foreground" : "text-white"}`}
         >
           {mobileOpen ? (
             <X className="w-6 h-6" />
@@ -259,7 +261,7 @@ export default function Navbar() {
                 <Link
                   to="/gio-hang"
                   onClick={() => setMobileOpen(false)}
-                  className="font-body text-sm font-medium text-foreground py-2 hover:text-primary flex items-center gap-2"
+                  className="font-body text-sm font-medium text-foreground py-2 active:text-primary flex items-center gap-2"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   Giỏ hàng
@@ -275,7 +277,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={user ? handleLogout : goToLogin}
-                  className="font-body text-sm font-medium text-foreground py-2 text-left hover:text-primary flex items-center gap-2"
+                  className="font-body text-sm font-medium text-foreground py-2 text-left active:text-primary flex items-center gap-2"
                 >
                   {user ? <LogOut className="w-4 h-4" /> : <LogIn className="w-4 h-4" />}
                   {user ? "Đăng xuất" : "Đăng nhập"}

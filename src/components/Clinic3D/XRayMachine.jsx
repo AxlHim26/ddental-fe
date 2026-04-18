@@ -1,27 +1,43 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useGLTF, Clone } from '@react-three/drei';
 import * as THREE from 'three';
 
 /**
- * XRayMachine — Standing X-Ray machine with arm and sensor panel
+ * XRayMachine — Loaded from a GLB/GLTF model
+ * Replaces primitive shapes with a real 3D asset.
  */
-export default function XRayMachine({ onClick }) {
+export default function XRayMachine({ onClick, modelPath, scale = 1, rotation = [0, 0, 0], position = [0, 0, 0] }) {
   const groupRef = useRef();
   const [hovered, setHovered] = useState(false);
 
-  // Subtle pulse on the screen
+  // Default to Planmeca X-Ray
+  const path = modelPath || '/Models/may x-quang planmeca.glb';
+  const { scene } = useGLTF(path);
+
+  // Tự động chuẩn hóa kích thước (Normalize scale)
+  const computedScale = useMemo(() => {
+    try {
+      const box = new THREE.Box3().setFromObject(scene);
+      const size = box.getSize(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z);
+      if (maxDim === 0) return scale;
+      // Thông thường máy X-Quang cao khoảng 2.2m
+      const targetSize = 2.2;
+      return (targetSize / maxDim) * scale;
+    } catch(e) {
+      return scale;
+    }
+  }, [scene, scale]);
+
+  // Gentle floating when hovered
   useFrame((state) => {
     if (groupRef.current && hovered) {
-      groupRef.current.children.forEach(child => {
-        if (child.userData.isScreen) {
-          child.material.emissiveIntensity = 1 + Math.sin(state.clock.elapsedTime * 3) * 0.3;
-        }
-      });
+      groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 2) * 0.02;
+    } else if (groupRef.current) {
+      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, 0, 0.05);
     }
   });
-
-  const bodyColor = '#e5e7eb';
-  const accentColor = hovered ? '#0ea5e9' : '#64748b';
 
   return (
     <group
@@ -30,60 +46,24 @@ export default function XRayMachine({ onClick }) {
       onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto'; }}
       onClick={(e) => { e.stopPropagation(); onClick && onClick(); }}
     >
-      {/* Base */}
-      <mesh position={[0, -0.3, 0]} castShadow>
-        <boxGeometry args={[1.2, 0.3, 0.8]} />
-        <meshStandardMaterial color="#9ca3af" metalness={0.7} roughness={0.3} />
-      </mesh>
+      {/* 3D Model Rendered Here */}
+      <Clone 
+        object={scene} 
+        scale={computedScale} 
+        rotation={rotation} 
+        position={position}
+        castShadow 
+        receiveShadow 
+      />
 
-      {/* Main column */}
-      <mesh position={[0, 1.5, 0]} castShadow>
-        <boxGeometry args={[0.3, 3.5, 0.3]} />
-        <meshStandardMaterial color={bodyColor} roughness={0.5} />
-      </mesh>
-
-      {/* Top housing */}
-      <mesh position={[0, 3.3, 0]} castShadow>
-        <boxGeometry args={[0.6, 0.5, 0.5]} />
-        <meshStandardMaterial color={bodyColor} roughness={0.4} />
-      </mesh>
-
-      {/* X-Ray arm (horizontal) */}
-      <mesh position={[0.8, 3.3, 0]} castShadow>
-        <boxGeometry args={[1.2, 0.15, 0.15]} />
-        <meshStandardMaterial color="#9ca3af" metalness={0.8} roughness={0.2} />
-      </mesh>
-
-      {/* X-Ray cone/emitter */}
-      <mesh position={[1.4, 3.0, 0]} rotation={[0, 0, -0.3]} castShadow>
-        <cylinderGeometry args={[0.08, 0.18, 0.5, 16]} />
-        <meshStandardMaterial color={accentColor} metalness={0.6} roughness={0.3} />
-      </mesh>
-
-      {/* Control panel / screen */}
-      <mesh position={[0, 2.2, 0.2]} userData={{ isScreen: true }} castShadow>
-        <boxGeometry args={[0.5, 0.35, 0.05]} />
-        <meshStandardMaterial
-          color="#1e293b"
-          emissive={hovered ? '#0ea5e9' : '#334155'}
-          emissiveIntensity={0.8}
-        />
-      </mesh>
-
-      {/* Accent strip */}
-      <mesh position={[0, 0.8, 0.16]}>
-        <boxGeometry args={[0.32, 0.04, 0.01]} />
-        <meshStandardMaterial
-          color="#0ea5e9"
-          emissive="#0ea5e9"
-          emissiveIntensity={hovered ? 1.5 : 0.5}
-        />
-      </mesh>
-
-      {/* Glow when hovered */}
+      {/* Hover Light Highlight */}
       {hovered && (
-        <pointLight position={[0, 2, 0.5]} color="#0ea5e9" intensity={2} distance={3} />
+        <pointLight position={[0, 2, 1]} color="#0ea5e9" intensity={3} distance={4} />
       )}
     </group>
   );
 }
+
+// Preload models for faster rendering
+useGLTF.preload('/Models/may x-quang planmeca.glb');
+useGLTF.preload('/Models/chan doan hinh anh vatech.glb');

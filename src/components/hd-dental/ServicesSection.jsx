@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Palette, Monitor, GraduationCap, ArrowRight } from "lucide-react";
@@ -49,7 +49,7 @@ export default function ServicesSection() {
       <div className="max-w-7xl mx-auto px-8 lg:px-12 mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
           <span className="font-body text-primary text-xs font-bold uppercase tracking-[0.3em]">Dịch vụ của chúng tôi</span>
-          <h2 className="font-heading font-bold text-5xl lg:text-7xl text-white mt-4 leading-none">
+          <h2 className="font-heading font-bold text-5xl lg:text-7xl text-white mt-4 leading-[0.85]">
             Nền tảng<br /><span className="text-white/20">dịch vụ</span>
           </h2>
         </div>

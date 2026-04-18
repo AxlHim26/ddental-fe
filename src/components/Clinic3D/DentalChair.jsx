@@ -1,14 +1,34 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useGLTF, Clone } from '@react-three/drei';
 import * as THREE from 'three';
 
 /**
- * DentalChair — Central dental chair built from primitive geometries.
- * Includes seat, backrest, headrest, armrests, base pedestal, and footrest.
+ * DentalChair — Central dental chair built from a GLB/GLTF model.
+ * Replaces the primitive geometry model with a real 3D asset.
  */
-export default function DentalChair({ onClick }) {
+export default function DentalChair({ onClick, modelPath, scale = 1, rotation = [0, 0, 0], position = [0, 0, 0] }) {
   const groupRef = useRef();
   const [hovered, setHovered] = useState(false);
+
+  // Default to a fallback model if none provided
+  const path = modelPath || '/Models/dental_chair.glb';
+  const { scene } = useGLTF(path);
+
+  // Tự động chuẩn hóa kích thước (Normalize scale)
+  const computedScale = useMemo(() => {
+    try {
+      const box = new THREE.Box3().setFromObject(scene);
+      const size = box.getSize(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z);
+      if (maxDim === 0) return scale;
+      // Thông thường ghế nha dài khoảng 1.8m
+      const targetSize = 1.8;
+      return (targetSize / maxDim) * scale;
+    } catch(e) {
+      return scale;
+    }
+  }, [scene, scale]);
 
   // Gentle floating when hovered
   useFrame((state) => {
@@ -19,82 +39,27 @@ export default function DentalChair({ onClick }) {
     }
   });
 
-  const chairColor = hovered ? '#f8fafc' : '#ffffff';
-  const metalColor = '#9ca3af';
-  const cushionColor = hovered ? '#6ee7b7' : '#a7f3d0'; // Mint green
-
   return (
     <group
       ref={groupRef}
-
       onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
       onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto'; }}
       onClick={(e) => { e.stopPropagation(); onClick && onClick(); }}
     >
-      {/* Base pedestal */}
-      <mesh position={[0, -0.3, 0]} castShadow>
-        <cylinderGeometry args={[0.8, 1, 0.3, 32]} />
-        <meshStandardMaterial color={metalColor} metalness={0.8} roughness={0.2} />
-      </mesh>
-
-      {/* Hydraulic column */}
-      <mesh position={[0, 0.2, 0]} castShadow>
-        <cylinderGeometry args={[0.15, 0.15, 0.8, 16]} />
-        <meshStandardMaterial color="#6b7280" metalness={0.9} roughness={0.1} />
-      </mesh>
-
-      {/* Seat base frame */}
-      <mesh position={[0, 0.65, 0.1]} castShadow>
-        <boxGeometry args={[1.2, 0.12, 1.8]} />
-        <meshStandardMaterial color={metalColor} metalness={0.6} roughness={0.3} />
-      </mesh>
-
-      {/* Seat cushion */}
-      <mesh position={[0, 0.78, 0.1]} castShadow>
-        <boxGeometry args={[1.1, 0.15, 1.7]} />
-        <meshStandardMaterial color={cushionColor} roughness={0.8} />
-      </mesh>
-
-      {/* Backrest frame */}
-      <mesh position={[0, 1.5, -0.7]} rotation={[0.3, 0, 0]} castShadow>
-        <boxGeometry args={[1.1, 1.2, 0.12]} />
-        <meshStandardMaterial color={metalColor} metalness={0.6} roughness={0.3} />
-      </mesh>
-
-      {/* Backrest cushion */}
-      <mesh position={[0, 1.5, -0.63]} rotation={[0.3, 0, 0]} castShadow>
-        <boxGeometry args={[1.0, 1.1, 0.12]} />
-        <meshStandardMaterial color={cushionColor} roughness={0.8} />
-      </mesh>
-
-      {/* Headrest */}
-      <mesh position={[0, 2.25, -1.1]} rotation={[0.5, 0, 0]} castShadow>
-        <boxGeometry args={[0.5, 0.35, 0.15]} />
-        <meshStandardMaterial color={cushionColor} roughness={0.9} />
-      </mesh>
-
-      {/* Left armrest */}
-      <mesh position={[-0.7, 1.0, -0.1]} castShadow>
-        <boxGeometry args={[0.12, 0.08, 1.0]} />
-        <meshStandardMaterial color={metalColor} metalness={0.7} roughness={0.2} />
-      </mesh>
-
-      {/* Right armrest */}
-      <mesh position={[0.7, 1.0, -0.1]} castShadow>
-        <boxGeometry args={[0.12, 0.08, 1.0]} />
-        <meshStandardMaterial color={metalColor} metalness={0.7} roughness={0.2} />
-      </mesh>
-
-      {/* Footrest */}
-      <mesh position={[0, 0.5, 1.3]} rotation={[-0.2, 0, 0]} castShadow>
-        <boxGeometry args={[0.8, 0.1, 0.6]} />
-        <meshStandardMaterial color={cushionColor} roughness={0.8} />
-      </mesh>
+      {/* 3D Model Rendered Here */}
+      <Clone 
+        object={scene} 
+        scale={computedScale} 
+        rotation={rotation} 
+        position={position}
+        castShadow 
+        receiveShadow 
+      />
 
       {/* Glow halo when hovered */}
       {hovered && (
-        <mesh position={[0, 0.6, 0]}>
-          <ringGeometry args={[1.2, 1.5, 32]} />
+        <mesh position={[0, 0.1, 0]}>
+          <ringGeometry args={[1.5, 1.8, 32]} />
           <meshBasicMaterial
             color="#0ea5e9"
             transparent
@@ -106,3 +71,8 @@ export default function DentalChair({ onClick }) {
     </group>
   );
 }
+
+// Preload common models so they load faster
+useGLTF.preload('/Models/dental_chair.glb');
+useGLTF.preload('/Models/ghe nha khoa.glb');
+useGLTF.preload('/Models/ghe nha khoa 3.glb');

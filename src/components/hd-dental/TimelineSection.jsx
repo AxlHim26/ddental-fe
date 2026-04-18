@@ -47,11 +47,11 @@ export default function TimelineSection() {
         </Reveal>
 
         {/* Horizontal timeline */}
-        <Reveal delay={0.2} className="relative flex items-center justify-between max-w-3xl mx-auto mb-20">
-          {/* Track */}
-          <div className="absolute top-1/2 left-0 right-0 h-px bg-border -translate-y-1/2" />
+        <Reveal delay={0.2} className="relative flex items-start justify-between max-w-3xl mx-auto mb-20">
+          {/* Track — z-0 ensures circles (z-10) always sit on top */}
+          <div className="absolute top-6 left-0 right-0 h-px bg-border z-0" />
           <motion.div
-            className="absolute top-1/2 left-0 h-px bg-primary -translate-y-1/2 origin-left"
+            className="absolute top-6 left-0 h-px bg-primary origin-left z-0"
             animate={{ width: `${(active / (milestones.length - 1)) * 100}%` }}
             transition={{ duration: 0.6, ease: E }}
           />
@@ -71,11 +71,11 @@ export default function TimelineSection() {
                 />
               )}
               <div
-                className={`relative w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-500 ${
+                className={`relative z-10 w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-500 ${
                   i === active
                     ? "bg-primary border-primary scale-110 shadow-lg shadow-primary/30"
                     : i < active
-                    ? "bg-primary/20 border-primary"
+                    ? "bg-background border-primary"
                     : "bg-background border-border group-hover:border-primary/50"
                 }`}
               >

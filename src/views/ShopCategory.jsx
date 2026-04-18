@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useMemo, useEffect } from "react";
 
@@ -191,21 +191,46 @@ export default function ShopCategory() {
       />
 
       {/* Hero chuyển nền theo slide */}
-      <div className="relative h-52 sm:h-64 lg:h-80 overflow-hidden">
+      <div className="relative h-56 sm:h-72 lg:h-[22rem] overflow-hidden bg-[#111113]">
         <div className="absolute inset-0 overflow-hidden">
+          {/* Layer 1: Blurred Background */}
           {heroBackgrounds.map((bg, idx) => (
             <img
-              key={`${bg}-${idx}`}
+              key={`blur-${idx}`}
               src={bg}
               alt=""
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+              className={`absolute inset-0 z-0 h-full w-full object-cover blur-2xl scale-[1.05] opacity-50 transition-opacity duration-700 ${
                 idx === heroSlideIndex ? "opacity-100" : "opacity-0"
               }`}
             />
           ))}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/25" />
+
+          {/* Layer 2: Main Crisp Image */}
+          {heroBackgrounds.map((bg, idx) => (
+            <div 
+              key={`crisp-${idx}`}
+              className={`absolute z-10 right-0 top-0 bottom-0 w-[70%] sm:w-[60%] lg:w-[50%] xl:w-[45%] transition-opacity duration-700 ${
+                idx === heroSlideIndex ? "opacity-100" : "opacity-0"
+              }`}
+              style={{
+                WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)",
+                maskImage: "linear-gradient(to left, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)"
+              }}
+            >
+              <img
+                src={bg}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover object-center lg:object-right pointer-events-none"
+              />
+            </div>
+          ))}
+
+          {/* Layer 3: Blend gradient overlay */}
+          <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#111113] via-[#111113]/60 to-transparent pointer-events-none" />
         </div>
-        <div className="absolute inset-0 z-10 flex items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full min-w-0 pointer-events-none">
+        
+        {/* Layer 4: Text Content (Must be > z-20 to sit above the gradient) */}
+        <div className="absolute inset-0 z-30 flex items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full min-w-0 pointer-events-none">
           <div className="min-w-0 max-w-full sm:max-w-[62%] lg:max-w-[56%] pointer-events-auto">
             <p className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-body text-[10px] sm:text-xs font-bold uppercase tracking-[0.16em] text-primary">
               HD Dental
@@ -213,7 +238,7 @@ export default function ShopCategory() {
             <h1 className="font-heading font-extrabold text-[1.9rem] sm:text-[2.2rem] lg:text-[3.1rem] text-white mt-3 leading-[1.08] tracking-[-0.01em] line-clamp-2 sm:line-clamp-none drop-shadow-[0_6px_20px_rgba(0,0,0,0.38)]">
               {activeCategory.name}
             </h1>
-            <p className="font-body whitespace-pre-line text-white/88 text-sm sm:text-[1rem] mt-3 max-w-[42ch] leading-relaxed line-clamp-3 sm:line-clamp-none">
+            <p className="font-body whitespace-pre-line text-white text-sm sm:text-[1rem] mt-3 max-w-[42ch] leading-relaxed line-clamp-3 sm:line-clamp-none">
               {heroDescription}
             </p>
           </div>
@@ -551,7 +576,7 @@ function ProductCard({ product, isHovered, onHover }) {
         <p className="font-body text-[9px] sm:text-[10px] text-primary font-bold uppercase tracking-wide truncate">
           {product.brand}
         </p>
-        <h4 className="font-body font-medium text-xs sm:text-sm text-foreground mt-0.5 leading-snug line-clamp-2 break-words">
+        <h4 className="font-body font-medium text-xs sm:text-sm text-foreground mt-0.5 leading-snug line-clamp-2 break-words text-left">
           {product.name}
         </h4>
         <div className="flex items-center gap-0.5 sm:gap-1 mt-1 sm:mt-1.5 mb-1 sm:mb-2 flex-wrap">

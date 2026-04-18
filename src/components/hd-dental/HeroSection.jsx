@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   motion,
@@ -125,17 +125,17 @@ export default function HeroSection() {
       {/* Content */}
       <motion.div
         className="relative h-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-16 flex flex-col justify-center min-h-0
-          pt-24 sm:pt-28 md:pt-28 lg:pt-[10.5rem] xl:pt-36
-          pb-28 sm:pb-24
-          lg:pb-[clamp(11rem,26vh,15rem)] xl:pb-[clamp(10rem,22vh,14rem)]
-          [@media(max-height:800px)]:lg:pb-[min(17rem,32vh)]
-          [@media(max-height:700px)]:lg:pb-[min(18rem,36vh)]"
+          pt-24 sm:pt-28 md:pt-28 lg:pt-28 xl:pt-32
+          pb-28 sm:pb-24 lg:pb-[14rem] xl:pb-[15rem]
+          [@media(max-height:800px)]:lg:pt-20
+          [@media(max-height:800px)]:lg:pb-[12rem]
+          [@media(max-height:700px)]:lg:pb-[13rem]"
         style={{ opacity: contentOpacity }}
       >
         <div className="w-full min-w-0 max-w-3xl shrink-0">
           {/* Badge — flex-wrap + gọn chữ để không trùng navbar/logo khi hẹp */}
           <Reveal delay={0.1}>
-            <div className="inline-flex flex-wrap items-center gap-x-2 gap-y-1.5 max-w-full border border-primary/40 text-primary text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] sm:tracking-[0.2em] lg:tracking-[0.25em] px-3 py-1.5 sm:px-4 sm:py-2 rounded-full mb-4 md:mb-6 lg:mb-7">
+            <div className="inline-flex flex-wrap items-center gap-x-2 gap-y-1.5 max-w-full border border-primary/40 text-primary text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] sm:tracking-[0.2em] lg:tracking-[0.25em] px-3 py-1.5 sm:px-4 sm:py-2 rounded-full mb-4 md:mb-6 lg:mb-7 [@media(max-height:800px)]:mb-4">
               <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-primary animate-pulse" />
               <span className="leading-snug">Giải pháp nha khoa #1 Việt Nam</span>
             </div>
@@ -146,7 +146,7 @@ export default function HeroSection() {
             <motion.div key={current}>
               <div className="overflow-hidden mb-0.5 pt-2 pb-2 md:pt-3 md:pb-3">
                 <motion.h1
-                  className="font-heading font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white leading-[0.95]"
+                  className="font-heading font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl [@media(max-height:800px)]:lg:text-6xl [@media(max-height:800px)]:xl:text-6xl text-white leading-[0.95]"
                   initial={{ y: 120 }}
                   animate={{ y: 0 }}
                   exit={{ y: -120 }}
@@ -157,7 +157,7 @@ export default function HeroSection() {
               </div>
               <div className="overflow-hidden mb-3 md:mb-4 lg:mb-5 pt-2 md:pt-3">
                 <motion.h1
-                  className="font-heading font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-primary leading-[0.95]"
+                  className="font-heading font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl [@media(max-height:800px)]:lg:text-6xl [@media(max-height:800px)]:xl:text-6xl text-primary leading-[0.95]"
                   initial={{ y: 120 }}
                   animate={{ y: 0 }}
                   exit={{ y: -120 }}
@@ -180,7 +180,7 @@ export default function HeroSection() {
 
           {/* CTAs */}
           <Reveal delay={0.4}>
-            <div className="flex gap-3 sm:gap-4 mt-6 md:mt-8 lg:mt-9 xl:mt-10 flex-wrap">
+            <div className="flex gap-3 sm:gap-4 mt-6 md:mt-8 lg:mt-9 xl:mt-10 flex-wrap [@media(max-height:800px)]:mt-6">
               <Link
                 to="/shop"
                 className="inline-flex items-center gap-2.5 bg-primary text-white font-body font-bold text-sm px-8 py-4 rounded-full hover:bg-primary/90 transition-all shadow-xl shadow-primary/30 hover:-translate-y-1 group"
@@ -210,7 +210,7 @@ export default function HeroSection() {
       </motion.div>
 
       {/* News Grid — max-width theo lg để không đè lên nút slide bên phải */}
-      <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8 lg:bottom-8 lg:left-16 lg:right-auto hidden lg:block z-20 w-[calc(100%-7rem)] max-w-2xl xl:max-w-3xl xl:w-auto">
+      <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8 lg:bottom-8 lg:left-16 lg:right-auto hidden lg:block z-20 w-[calc(100%-7rem)] max-w-2xl xl:max-w-3xl xl:w-auto [@media(max-height:710px)]:hidden">
         <div className="grid grid-cols-3 gap-2 sm:gap-3">
           {heroNews.map((item, i) => (
             <Link key={item.slug} to={`/news/${item.slug}`}>
@@ -226,7 +226,7 @@ export default function HeroSection() {
                 <span className="text-primary font-body text-[10px] font-bold uppercase tracking-wider">
                   {item.tag}
                 </span>
-                <p className="text-white font-body text-xs xl:text-sm font-medium mt-1.5 xl:mt-2 group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+                <p className="text-white font-body text-xs xl:text-sm font-medium mt-1.5 xl:mt-2 group-hover:text-primary transition-colors line-clamp-2 leading-snug text-left">
                   {item.title}
                 </p>
                 <ArrowRight className="w-3 h-3 text-white/30 mt-2 group-hover:text-primary group-hover:translate-x-1 transition-all" />

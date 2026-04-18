@@ -12,7 +12,7 @@ export default function Cabinet({ onClick }) {
 
   return (
     <group
-      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
+      onPointerOver={(e) => { e.stopPropagation(); if (onClick) { setHovered(true); document.body.style.cursor = 'pointer'; } }}
       onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto'; }}
       onClick={(e) => { e.stopPropagation(); onClick && onClick(); }}
     >
@@ -98,8 +98,8 @@ export default function Cabinet({ onClick }) {
         />
       </mesh>
 
-      {/* Hover glow */}
-      {hovered && (
+      {/* Hover glow — only when interactive */}
+      {hovered && onClick && (
         <pointLight position={[0, 1.5, 1]} color="#0ea5e9" intensity={1.5} distance={3} />
       )}
     </group>

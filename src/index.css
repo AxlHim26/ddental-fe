@@ -92,7 +92,6 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
-    text-align: justify;
     line-height: 1.8;
     text-wrap: pretty;
   }

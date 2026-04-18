@@ -1,4 +1,4 @@
-﻿export const categories = {
+export const categories = {
     "ghe-nha-khoa": {
       slug: "ghe-nha-khoa",
       name: "Ghế Nha Khoa",
@@ -19,6 +19,13 @@
       name_en: "Diagnostic Imaging",
       banner: "/images/cutouts/xray-cbct-cs9300.png",
       description: "Máy chụp X-quang, cảm biến RVG và thiết bị chẩn đoán hình ảnh kỹ thuật số tiên tiến.",
+    },
+    "thiet-bi-phau-thuat": {
+      slug: "thiet-bi-phau-thuat",
+      name: "Thiết Bị Phẫu Thuật & Laser",
+      name_en: "Surgical & Laser Equipment",
+      banner: "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/86b55d54c_generated_image.png",
+      description: "Các dòng máy Laser nha khoa tiên tiến, máy cắt đốt phẫu thuật, và thiết bị hỗ trợ phẫu thuật, cắm ghép Implant.",
     },
   };
   
@@ -317,4 +324,45 @@
       description: "Kodak CS 9300 là hệ thống chẩn đoán hình ảnh toàn diện nhất dành cho các trung tâm nha khoa chuyên sâu. Hình ảnh CBCT 3D chất lượng cao với liều phóng xạ thấp, hỗ trợ đầy đủ workflow implant và phẫu thuật.",
       inStock: true,
     },
+
+    // --- THIẾT BỊ PHẪU THUẬT & LASER ---
+    {
+      id: "laser-nha-khoa",
+      category: "thiet-bi-phau-thuat",
+      name: "Máy Laser Phẫu Thuật Đa Năng",
+      brand: "Biolase",
+      price: 155000000,
+      oldPrice: 180000000,
+      image: "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/1e0976c73_generated_image.png",
+      images: [
+        "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/1e0976c73_generated_image.png"
+      ],
+      colors: ["#FFFFFF", "#1A1A1A"],
+      colorNames: ["Trắng", "Đen"],
+      rating: 4.9, reviews: 24,
+      tag: "Chuyên dụng",
+      specs: ["Công suất: 10W", "Bước sóng: 940nm", "Màn hình cảm ứng: 7 inch", "Các chế độ cài sẵn: 30+", "Điều khiển bàn đạp không dây"],
+      description: "Hệ thống Laser nha khoa công nghệ cao hỗ trợ cắt mô mềm nhanh chóng, ít chảy máu và giảm thiểu cảm giác đau cho bệnh nhân. Phù hợp cho điều trị nha chu, nội nha và phẫu thuật thẩm mỹ lợi.",
+      inStock: true,
+    },
+    {
+      id: "may-in-3d-nha-khoa",
+      category: "chan-doan",
+      name: "Máy In 3D Resin Nha Khoa Pro",
+      brand: "Formlabs",
+      price: 95000000,
+      oldPrice: 110000000,
+      image: "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/f4a07e056_generated_image.png",
+      images: [
+        "https://media.base44.com/images/public/69cff7a985a4c7940dcab568/f4a07e056_generated_image.png"
+      ],
+      colors: ["#FFFFFF", "#FB923C"],
+      colorNames: ["Trắng", "Cam"],
+      rating: 4.8, reviews: 36,
+      tag: "Công nghệ mới",
+      specs: ["Độ phân giải XY: 25 μm", "Công nghệ: LFS", "Thể tích in: 14.5 × 14.5 × 18.5 cm", "In máng hướng dẫn, răng tạm"],
+      description: "Máy in 3D nha khoa độ nét siêu cao, ứng dụng sản xuất tức thì máng hướng dẫn phẫu thuật implant, khay chỉnh nha trong suốt và mẫu hàm. Tốc độ nâng cao trải nghiệm khách hàng.",
+      inStock: true,
+    },
   ];
+

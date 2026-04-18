@@ -14,7 +14,7 @@ export default function WaitingLounge({ onClick }) {
   return (
     <group
       ref={groupRef}
-      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
+      onPointerOver={(e) => { e.stopPropagation(); if (onClick) { setHovered(true); document.body.style.cursor = 'pointer'; } }}
       onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto'; }}
       onClick={(e) => { e.stopPropagation(); onClick && onClick(); }}
     >
@@ -73,7 +73,7 @@ export default function WaitingLounge({ onClick }) {
         </mesh>
       </group>
 
-      {hovered && (
+      {hovered && onClick && (
         <mesh position={[0, 0.05, 1.5]} rotation={[-Math.PI / 2, 0, 0]}>
           <ringGeometry args={[1.5, 1.8, 32]} />
           <meshBasicMaterial

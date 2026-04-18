@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment, ContactShadows } from "@react-three/drei";
-import { useRouter } from "next/navigation";
+import { Link, useNavigate } from "react-router-dom";
 import Room from "./Room";
 import DentalChair from "./DentalChair";
 import DentalLight from "./DentalLight";
@@ -17,12 +17,52 @@ import SurgicalLaser from "./SurgicalLaser";
 import Microscope from "./Microscope";
 import DentalPrinter from "./DentalPrinter";
 import Defibrillator from "./Defibrillator";
+import LogoSign from "./LogoSign";
 import { products as clinicEquipment } from "../../lib/productData";
 import { useCart } from "../../context/CartContext";
 import { useSiteAuth } from "../../context/SiteAuthContext";
 
 const formatVND = (price) =>
   new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price);
+
+// Biển vách kính ngăn cách các trạm phòng khám
+function GlassPartition({ position, rotation = [0, 0, 0], length = 14 }) {
+  return (
+    <mesh position={position} rotation={rotation} castShadow receiveShadow>
+      {/* Vách kích thước: Dài tùy chỉnh, cao 4m, dày 0.1m */}
+      <boxGeometry args={[length, 4, 0.1]} />
+      <meshPhysicalMaterial 
+        color="#a5f3fc" 
+        transmission={0.85} // Độ trong suốt của kính
+        opacity={1} 
+        transparent
+        roughness={0.1} 
+        metalness={0.2} 
+        ior={1.5} 
+        thickness={0.5} 
+        envMapIntensity={1}
+      />
+      {/* Khung viền kim loại trên dưới */}
+      <mesh position={[0, -1.95, 0]}>
+        <boxGeometry args={[length, 0.1, 0.15]} />
+        <meshStandardMaterial color="#475569" metalness={0.8} roughness={0.2} />
+      </mesh>
+      <mesh position={[0, 1.95, 0]}>
+        <boxGeometry args={[length, 0.1, 0.15]} />
+        <meshStandardMaterial color="#475569" metalness={0.8} roughness={0.2} />
+      </mesh>
+      {/* Khung viền kim loại 2 bên mép */}
+      <mesh position={[-length / 2 + 0.05, 0, 0]}>
+        <boxGeometry args={[0.1, 4, 0.15]} />
+        <meshStandardMaterial color="#475569" metalness={0.8} roughness={0.2} />
+      </mesh>
+      <mesh position={[length / 2 - 0.05, 0, 0]}>
+        <boxGeometry args={[0.1, 4, 0.15]} />
+        <meshStandardMaterial color="#475569" metalness={0.8} roughness={0.2} />
+      </mesh>
+    </mesh>
+  );
+}
 
 export default function ClinicScene() {
   const [selectedEquipment, setSelectedEquipment] = useState(null);
@@ -31,7 +71,7 @@ export default function ClinicScene() {
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const { addItem } = useCart();
   const { user, ready } = useSiteAuth();
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleEquipmentClick = (equipId) => {
     const equip = clinicEquipment.find((e) => e.id === equipId);
@@ -58,8 +98,8 @@ export default function ClinicScene() {
         result.error === "out_of_stock"
           ? "Sản phẩm hiện đang hết hàng."
           : result.error === "not_found"
-          ? "Không tìm thấy sản phẩm."
-          : "Đã có lỗi xảy ra.";
+            ? "Không tìm thấy sản phẩm."
+            : "Đã có lỗi xảy ra.";
       setErrorMsg(msg);
       setCartState("error");
       return;
@@ -72,7 +112,7 @@ export default function ClinicScene() {
   const goToLogin = () => {
     setShowLoginPrompt(false);
     setSelectedEquipment(null);
-    router.push("/login");
+    navigate("/login");
   };
 
   return (
@@ -97,7 +137,7 @@ export default function ClinicScene() {
       {/* Canvas wrapper */}
       <div className="relative mx-auto max-w-7xl px-4 md:px-6">
         <div className="relative w-full rounded-2xl overflow-hidden border border-white/8"
-             style={{ height: "70vh", minHeight: 500, maxHeight: 800, background: "#060d1a" }}>
+          style={{ height: "70vh", minHeight: 500, maxHeight: 800, background: "#060d1a" }}>
 
           <Canvas
             shadows
@@ -125,13 +165,23 @@ export default function ClinicScene() {
             <directionalLight position={[-3, 5, -5]} intensity={0.4} color="#0ea5e9" />
             <pointLight position={[0, 3, 8]} intensity={0.5} color="#fef3c7" />
 
-            <Suspense fallback={null}>
+            <Suspense fallback={
+              <mesh>
+                <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial color="#1a1a2e" transparent opacity={0} />
+              </mesh>
+            }>
               <Environment preset="city" />
               <Room />
 
-              {/* Station 1 */}
+              {/* Vách ngăn kính mặt tiền (hành lang) chừa lại cửa ở bên trái cho mỗi trạm */}
+              <GlassPartition position={[-2, 2, 8.5]} rotation={[0, Math.PI / 2, 0]} length={7} />
+              <GlassPartition position={[-2, 2, -1.5]} rotation={[0, Math.PI / 2, 0]} length={7} />
+              <GlassPartition position={[-2, 2, -11.5]} rotation={[0, Math.PI / 2, 0]} length={7} />
+
+              {/* Station 1 — Cao cấp (Anthos A3 Plus) */}
               <group position={[-6, 0, 10]}>
-                <DentalChair onClick={() => handleEquipmentClick("ghe-grace-x2")} />
+                <DentalChair modelPath="/Models/dental_chair.glb" scale={1.2} position={[0, 0, 0]} rotation={[0, -Math.PI / 2, 0]} onClick={() => handleEquipmentClick("ghe-anthos-a3")} />
                 <group position={[0.5, 0, 0.5]}>
                   <DentalLight onClick={() => handleEquipmentClick("den-valo-grand")} />
                 </group>
@@ -142,24 +192,32 @@ export default function ClinicScene() {
                   <InstrumentTray onClick={() => handleEquipmentClick("den-maxcure9")} />
                 </group>
                 <group position={[-1, 0, -1.5]}>
-                  <DentistStool onClick={() => handleEquipmentClick("ghe-suntem-302")} />
+                  <DentistStool onClick={() => handleEquipmentClick("ghe-grace-x2")} />
                 </group>
                 <group position={[2, 0, -3.5]} rotation={[0, Math.PI / 2, 0]}>
                   <MedicalCart onClick={() => handleEquipmentClick("den-beyond-ii")} />
                 </group>
                 <group position={[-1.5, 0, -3.5]} rotation={[0, Math.PI / 4, 0]}>
-                  <Microscope onClick={() => handleEquipmentClick("xray-panoramic-op300")} />
+                  <Microscope onClick={() => handleEquipmentClick("sensor-rvg")} />
+                </group>
+                {/* Tủ áp tường trái (Góc trên phải) */}
+                <group position={[-3.8, 0, -3.5]} rotation={[0, Math.PI / 2, 0]}>
+                  <Cabinet />
+                </group>
+                {/* Máy in 3D (Góc trên trái) */}
+                <group position={[-3.8, 0, 3.5]} rotation={[0, Math.PI / 2, 0]}>
+                  <DentalPrinter onClick={() => handleEquipmentClick("may-in-3d-nha-khoa")} />
                 </group>
               </group>
 
-              {/* Station 2 */}
+              {/* Station 2 — Trung cấp (Suntem ST-D302) */}
               <group position={[-6, 0, 0]}>
-                <DentalChair onClick={() => handleEquipmentClick("ghe-anthos-a3")} />
+                <DentalChair modelPath="/Models/ghe nha khoa.glb" scale={1.2} position={[3, 0, 0]} rotation={[0, -Math.PI / 2, 0]} onClick={() => handleEquipmentClick("ghe-suntem-302")} />
                 <group position={[0.5, 0, 0.5]}>
                   <DentalLight onClick={() => handleEquipmentClick("den-ledex")} />
                 </group>
                 <group position={[2, 0, -1.5]} rotation={[0, -0.4, 0]}>
-                  <Monitor onClick={() => handleEquipmentClick("sensor-rvg")} />
+                  <Monitor onClick={() => handleEquipmentClick("xray-panoramic-op300")} />
                 </group>
                 <group position={[1.8, 0, 0.8]}>
                   <InstrumentTray onClick={() => handleEquipmentClick("den-maxcure3")} />
@@ -168,51 +226,70 @@ export default function ClinicScene() {
                   <DentistStool onClick={() => handleEquipmentClick("ghe-suntem-d307")} />
                 </group>
                 <group position={[2, 0, -3.5]} rotation={[0, Math.PI / 2, 0]}>
-                  <MedicalCart onClick={() => handleEquipmentClick("ghe-cingol-x3")} />
+                  <MedicalCart onClick={() => handleEquipmentClick("den-beyond-ii")} />
+                </group>
+                {/* Tủ áp tường trái (Góc trên phải) */}
+                <group position={[-3.8, 0, -3.5]} rotation={[0, Math.PI / 2, 0]}>
+                  <Cabinet />
+                </group>
+                {/* Máy in 3D (Góc trên trái) */}
+                <group position={[-3.8, 0, 3.5]} rotation={[0, Math.PI / 2, 0]}>
+                  <DentalPrinter onClick={() => handleEquipmentClick("may-in-3d-nha-khoa")} />
                 </group>
               </group>
 
-              {/* Station 3 */}
+              {/* Station 3 — Phổ thông (Fengdan) */}
               <group position={[-6, 0, -10]}>
-                <DentalChair onClick={() => handleEquipmentClick("ghe-fengdan-ql2028")} />
+                <DentalChair modelPath="/Models/ghe nha khoa 3.glb" scale={1.2} position={[0, 0, 0]} rotation={[0, -Math.PI / 2, 0]} onClick={() => handleEquipmentClick("ghe-fengdan-ql2028")} />
                 <group position={[0.5, 0, 0.5]}>
-                  <DentalLight onClick={() => handleEquipmentClick("den-valo-grand")} />
+                  <DentalLight onClick={() => handleEquipmentClick("den-maxcure9")} />
                 </group>
                 <group position={[-1, 0, -1.5]}>
-                  <DentistStool onClick={() => handleEquipmentClick("ghe-suntem-302")} />
+                  <DentistStool onClick={() => handleEquipmentClick("ghe-dau-nha-si")} />
                 </group>
                 <group position={[2, 0, -2]} rotation={[0, Math.PI / 4, 0]}>
-                  <SurgicalLaser onClick={() => handleEquipmentClick("xray-cbct-cs9300")} />
+                  <SurgicalLaser onClick={() => handleEquipmentClick("laser-nha-khoa")} />
+                </group>
+                {/* Thêm Cụm Khay dụng cụ / Đèn Trám Thẩm Mỹ như các phòng khác */}
+                <group position={[1.8, 0, 0.8]}>
+                  <InstrumentTray onClick={() => handleEquipmentClick("den-ledex")} />
+                </group>
+                {/* Tủ áp tường trái (Góc trên phải) */}
+                <group position={[-3.8, 0, -3.5]} rotation={[0, Math.PI / 2, 0]}>
+                  <Cabinet />
+                </group>
+                {/* Máy in 3D (Góc trên trái) */}
+                <group position={[-3.8, 0, 3.5]} rotation={[0, Math.PI / 2, 0]}>
+                  <DentalPrinter onClick={() => handleEquipmentClick("may-in-3d-nha-khoa")} />
                 </group>
               </group>
 
-              {/* Back wall */}
-              <group position={[0, 0, -13]}>
-                <XRayMachine onClick={() => handleEquipmentClick("xray-pax-i3d")} />
+              {/* Back wall — Khu chẩn đoán hình ảnh */}
+              <group position={[-2.5, 0, -12.5]} rotation={[0, -Math.PI / 8, 0]}>
+                <XRayMachine modelPath="/Models/may x-quang planmeca.glb" scale={1.2} onClick={() => handleEquipmentClick("xray-panoramic-op300")} />
               </group>
-              <group position={[-6, 0, -13]}>
-                <Cabinet onClick={() => handleEquipmentClick("sensor-rvg-woodpecker")} />
+              <group position={[2.5, 0, -12.5]} rotation={[0, Math.PI / 8, 0]}>
+                <XRayMachine modelPath="/Models/chan doan hinh anh vatech.glb" scale={1.2} onClick={() => handleEquipmentClick("xray-pax-i3d")} />
               </group>
-              <group position={[6, 0, -13]}>
-                <Cabinet onClick={() => handleEquipmentClick("xray-panoramic-op300")} />
-              </group>
-              <group position={[8, 0, -14]} rotation={[0, -Math.PI / 4, 0]}>
-                <DentalPrinter onClick={() => handleEquipmentClick("xray-cbct-cs9300")} />
+              <group position={[9.1, 0, -14.5]}>
+                <Cabinet />
               </group>
 
               {/* Reception + Waiting */}
+              {/* Backlight / Logo in Reception */}
+              <group position={[9.85, 4.8, 1]} rotation={[0, -Math.PI / 2, 0]}>
+                <LogoSign scale={3.0} />
+              </group>
               <group position={[7, 0, -2]} rotation={[0, -Math.PI / 2, 0]}>
                 <Reception />
               </group>
               <group position={[7, 0, 11]} rotation={[0, -Math.PI / 2, 0]}>
-                <WaitingLounge onClick={() => handleEquipmentClick("ghe-anthos-a3")} />
-              </group>
-              <group position={[8, 0, 4]} rotation={[0, -Math.PI / 2, 0]}>
-                <Defibrillator onClick={() => handleEquipmentClick("den-beyond-ii")} />
+                <WaitingLounge />
               </group>
 
+
               <ContactShadows
-                position={[0, -0.49, 0]}
+                position={[0, 0.01, 0]}
                 opacity={0.4}
                 scale={40}
                 blur={2}
@@ -239,17 +316,17 @@ export default function ClinicScene() {
           {/* Controls hint */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-4 px-5 py-2.5 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-white/50 text-xs pointer-events-none select-none">
             <span className="flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" strokeWidth={1.5}/><path d="M12 2v10M12 12l6 6" strokeWidth={1.5}/></svg>
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" strokeWidth={1.5} /><path d="M12 2v10M12 12l6 6" strokeWidth={1.5} /></svg>
               Kéo để xoay
             </span>
             <span className="w-px h-3 bg-white/20" />
             <span className="flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 21l-6-6M3 11a8 8 0 1 0 16 0 8 8 0 0 0-16 0" strokeWidth={1.5} strokeLinecap="round"/></svg>
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 21l-6-6M3 11a8 8 0 1 0 16 0 8 8 0 0 0-16 0" strokeWidth={1.5} strokeLinecap="round" /></svg>
               Cuộn để thu/phóng
             </span>
             <span className="w-px h-3 bg-white/20" />
             <span className="flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" /></svg>
               Nhấp để chọn thiết bị
             </span>
           </div>
@@ -310,7 +387,7 @@ export default function ClinicScene() {
               {selectedEquipment.rating && (
                 <div className="flex items-center gap-2 mb-4">
                   <div className="flex">
-                    {[1,2,3,4,5].map((s) => (
+                    {[1, 2, 3, 4, 5].map((s) => (
                       <svg key={s} className={`w-4 h-4 ${s <= Math.round(selectedEquipment.rating) ? "text-yellow-400" : "text-white/20"}`} fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
@@ -340,15 +417,14 @@ export default function ClinicScene() {
               {/* Actions */}
               <div className="flex gap-3">
                 <button
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
-                    cartState === "added"
-                      ? "bg-green-500 text-white"
-                      : cartState === "error"
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed ${cartState === "added"
+                    ? "bg-green-500 text-white"
+                    : cartState === "error"
                       ? "bg-red-500/80 text-white"
                       : selectedEquipment.inStock === false
-                      ? "bg-zinc-700 text-white/50"
-                      : "bg-primary hover:bg-primary/90 text-white"
-                  }`}
+                        ? "bg-zinc-700 text-white/50"
+                        : "bg-primary hover:bg-primary/90 text-white"
+                    }`}
                   onClick={handleAddToCart}
                   disabled={
                     cartState === "adding" ||
@@ -366,8 +442,8 @@ export default function ClinicScene() {
                   ) : cartState === "adding" ? (
                     <>
                       <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                       </svg>
                       Đang thêm...
                     </>
@@ -389,12 +465,12 @@ export default function ClinicScene() {
                     </>
                   )}
                 </button>
-                <a
-                  href={`/shop/${selectedEquipment.category}`}
+                <Link
+                  to={`/product/${selectedEquipment.id}`}
                   className="px-4 py-2.5 rounded-xl border border-white/15 text-white/70 hover:border-white/30 hover:text-white text-sm font-semibold transition-all flex items-center whitespace-nowrap"
                 >
                   Chi tiết
-                </a>
+                </Link>
               </div>
             </div>
           </div>
